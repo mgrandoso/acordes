@@ -232,7 +232,7 @@ textarea{width:100%;padding:11px;background:var(--bg);border:1px solid var(--b1)
 <script>
 // ── STATE ──────────────────────────────────────────────────────────────────
 var songs=[],curView='artists',sortMode='artist',searchQ='',fromView='artists';
-var curSongId=null,curVersionIdx=0,editVersions=[],editVersionIdx=0,importTab='paste';
+var curSongId=null,curVersionIdx=0,editVersions=[],editVersionIdx=0,importTab='url';
 var scrollRaf=null,scrollIdx=-1;
 var SPEEDS=[0.1,0.22,0.35,0.9],SPEED_NAMES=['Lenta','Normal','Rapida','Muy rapida'];
 var wakeLock=null,wakeOn=false,isAdmin=false,passMode='login',defaultPassHash='';
@@ -604,14 +604,14 @@ function renderAdd(){
     '<div class="pgtitle">Agregar cancion</div>'+
     '<div class="section"><h3>&#128229; Importar</h3>'+
     '<div class="itabs">'+
-      '<button class="itab'+(importTab==='paste'?' active':'')+'" onclick="switchItab(\'paste\')">Pegar texto</button>'+
+      '<button class="itab'+(importTab==='url'?' active':'')+'" onclick="switchItab(\'url\')">Desde URL</button>'+
       '<button class="itab'+(importTab==='ai'?' active':'')+'" onclick="switchItab(\'ai\')">Usar IA</button>'+
     '</div>'+
-    '<div class="iblock'+(importTab==='paste'?' show':'')+'" id="iblock-paste">'+
-      '<p class="hint">Abri la pagina de acordes, selecciona todo el texto (<strong>Ctrl+A</strong>), copialo y pegalo aca.</p>'+
-      '<textarea id="pasteArea" style="min-height:150px;font-family:inherit;font-size:13px" placeholder="Pega el texto de la pagina aqui..."></textarea>'+
-      '<div class="btn-row"><button class="btn-primary" onclick="doParse()">&#10022; Extraer datos</button></div>'+
-      '<div id="parseStatus"></div>'+
+    '<div class="iblock'+(importTab==='url'?' show':'')+'" id="iblock-url">'+
+      '<p class="hint">Pega la URL de la pagina de acordes (ej: cifraclub.com) y hace click en Obtener.</p>'+
+      '<input type="url" id="fetchUrl" placeholder="https://www.cifraclub.com/artista/cancion/" style="font-size:13px" />'+
+      '<div class="btn-row"><button class="btn-primary" id="fetchBtn" onclick="doUrlFetch()">&#8659; Obtener desde URL</button></div>'+
+      '<div id="fetchStatus"></div>'+
     '</div>'+
     '<div class="iblock'+(importTab==='ai'?' show':'')+'" id="iblock-ai">'+
       '<p class="hint">La clave se usa <strong>una sola vez</strong> y no se guarda en ningun lugar. Solo Anthropic puede obtener la cancion directamente desde la URL.</p>'+
@@ -775,22 +775,41 @@ function parsePageText(raw){
   }
   return{title:title,artist:artist,content:content};
 }
-function doParse(){
-  var raw=document.getElementById('pasteArea').value;
-  var st=document.getElementById('parseStatus');
-  if(!raw.trim()){st.innerHTML='<div class="status st-err" style="margin-top:8px">Pega el texto de la pagina primero.</div>';return}
-  var r=parsePageText(raw);
-  document.getElementById('fArtist').value=r.artist;
-  document.getElementById('fTitle').value=r.title;
-  document.getElementById('fContent').value=r.content;
-  st.innerHTML=r.content
-    ?'<div class="status st-ok" style="margin-top:8px">&#10003; Datos extraidos. Revisa y completa lo que falte.</div>'
-    :'<div class="status st-info" style="margin-top:8px">No se encontro bloque de acordes. Completa los campos manualmente.</div>';
+async function doUrlFetch(){
+  var url=(document.getElementById('fetchUrl')||{}).value||'';
+  var st=document.getElementById('fetchStatus');
+  if(!url.trim()){st.innerHTML='<div class="status st-err" style="margin-top:8px">Ingresa una URL primero.</div>';return}
+  var btn=document.getElementById('fetchBtn');
+  btn.disabled=true;btn.textContent='Obteniendo...';
+  st.innerHTML='<div class="status st-info" style="margin-top:8px">Conectando...</div>';
+  try{
+    var proxy='https://api.allorigins.win/get?url='+encodeURIComponent(url);
+    var resp=await fetch(proxy);
+    if(!resp.ok)throw new Error('Error de red: '+resp.status);
+    var json=await resp.json();
+    var html=json.contents||'';
+    if(!html)throw new Error('La pagina no devolvio contenido.');
+    // Extraer texto limpio del HTML
+    var doc=new DOMParser().parseFromString(html,'text/html');
+    doc.querySelectorAll('script,style,nav,header,footer,aside,[class*="banner"],[class*="ad-"],[id*="banner"],[id*="sidebar"]').forEach(function(el){el.remove()});
+    var text=doc.body?doc.body.innerText||doc.body.textContent:'';
+    var r=parsePageText(text);
+    document.getElementById('fArtist').value=r.artist;
+    document.getElementById('fTitle').value=r.title;
+    document.getElementById('fContent').value=r.content;
+    st.innerHTML=r.content
+      ?'<div class="status st-ok" style="margin-top:8px">&#10003; Datos extraidos. Revisa y completa lo que falte.</div>'
+      :'<div class="status st-info" style="margin-top:8px">Pagina obtenida pero no se encontro bloque de acordes. Completa los campos manualmente.</div>';
+  }catch(e){
+    st.innerHTML='<div class="status st-err" style="margin-top:8px">Error: '+e.message+'</div>';
+  }finally{
+    btn.disabled=false;btn.textContent='\u21D3 Obtener desde URL';
+  }
 }
 function switchItab(t){
   importTab=t;
-  ['paste','ai'].forEach(function(k){document.getElementById('iblock-'+k).className='iblock'+(k===t?' show':'')});
-  document.querySelectorAll('.itab').forEach(function(b,i){b.className='itab'+((['paste','ai'][i]===t)?' active':'')});
+  ['url','ai'].forEach(function(k){document.getElementById('iblock-'+k).className='iblock'+(k===t?' show':'')});
+  document.querySelectorAll('.itab').forEach(function(b,i){b.className='itab'+((['url','ai'][i]===t)?' active':'')});
 }
 function updateAiUI(){
   var p=document.getElementById('aiProv');if(!p)return;
