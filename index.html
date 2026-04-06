@@ -27,23 +27,29 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { background: var(--bg); color: var(--t1); font-family: system-ui,-apple-system,sans-serif; min-height: 100vh; }
 
+/* ── ADMIN VISIBILITY ── */
+/* Admin-only elements are hidden by default; body.admin reveals them */
+.admin-only { display: none !important; }
+body.admin .admin-only { display: inline-block !important; }
+
 /* ── TOPBAR ── */
-.topbar { background: var(--bg2); border-bottom: 1px solid var(--b1); padding: 0 22px; height: 54px; display: flex; align-items: center; gap: 12px; position: sticky; top: 0; z-index: 50; }
+.topbar { background: var(--bg2); border-bottom: 1px solid var(--b1); padding: 0 22px; height: 54px; display: flex; align-items: center; gap: 10px; position: sticky; top: 0; z-index: 50; }
 .logo { font-size: 15px; font-weight: 700; color: var(--amber); cursor: pointer; display: flex; align-items: center; gap: 7px; flex-shrink: 0; }
 .logo svg { width: 19px; height: 19px; }
 .tabs { display: flex; gap: 2px; background: var(--bg3); border-radius: var(--r); padding: 3px; }
 .tab { background: none; border: none; border-radius: 7px; padding: 5px 13px; font-size: 13px; cursor: pointer; color: var(--t2); font-family: inherit; transition: background .15s, color .15s; }
 .tab.active { background: var(--card); color: var(--t1); font-weight: 600; }
 .topbar-r { margin-left: auto; display: flex; gap: 8px; align-items: center; }
-.btn-ico { background: none; border: 1px solid var(--b2); color: var(--t2); border-radius: var(--r); padding: 5px 11px; font-size: 12px; cursor: pointer; font-family: inherit; transition: border-color .15s, color .15s; }
+.btn-ico { background: none; border: 1px solid var(--b2); color: var(--t2); border-radius: var(--r); padding: 5px 11px; font-size: 12px; cursor: pointer; font-family: inherit; transition: border-color .15s, color .15s; white-space: nowrap; }
 .btn-ico:hover { border-color: var(--amber); color: var(--amber); }
+.btn-ico.unlocked { border-color: var(--amber); color: var(--amber); }
 .btn-new { background: var(--amber); color: #fff; border: none; border-radius: var(--r); padding: 6px 14px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit; }
 .btn-new:hover { background: var(--amberl); }
 
 /* ── LAYOUT ── */
-.wrap { max-width: 980px; margin: 0 auto; padding: 26px 20px 60px; }
+.wrap { max-width: 980px; margin: 0 auto; padding: 26px 20px 80px; }
 
-/* ── GRID / CARDS ── */
+/* ── CARDS ── */
 .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(205px, 1fr)); gap: 10px; }
 .artist-card { background: var(--card); border: 1px solid var(--b1); border-radius: var(--r2); padding: 17px 16px; cursor: pointer; transition: border-color .15s, transform .12s; }
 .artist-card:hover { border-color: var(--amber); transform: translateY(-1px); }
@@ -74,92 +80,45 @@ body { background: var(--bg); color: var(--t1); font-family: system-ui,-apple-sy
 .song-title { font-size: clamp(21px, 4.5vw, 38px); font-weight: 700; color: var(--t1); line-height: 1.15; margin-bottom: 14px; }
 .artist-hdr { margin-bottom: 16px; padding-bottom: 14px; border-bottom: 1px solid var(--b1); }
 .artist-hdr-name { font-size: 22px; font-weight: 700; color: var(--t1); }
-.actions { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+.actions { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; min-height: 0; }
 .btn-edit { background: none; border: 1px solid var(--amber); color: var(--amber); border-radius: var(--r); padding: 5px 14px; font-size: 12px; cursor: pointer; font-family: inherit; transition: background .15s; }
 .btn-edit:hover { background: var(--amberh); }
 .btn-del { background: none; border: 1px solid #7a3030; color: #c04040; border-radius: var(--r); padding: 5px 14px; font-size: 12px; cursor: pointer; font-family: inherit; }
 .btn-del:hover { background: rgba(180,40,40,.1); }
 
-/* ── SONG TOP CONTROLS (wake + version) ── */
-.song-ctrl { background: var(--bg2); border: 1px solid var(--b1); border-radius: var(--r2); padding: 10px 14px; margin-bottom: 14px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+/* ── SONG TOP CONTROLS ── */
+.song-top-ctrl { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; padding: 10px 14px; background: var(--bg2); border: 1px solid var(--b1); border-radius: var(--r2); }
 .clbl { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .8px; color: var(--t3); white-space: nowrap; }
-.csep { width: 1px; height: 16px; background: var(--b1); flex-shrink: 0; }
-.cgrp { display: flex; align-items: center; gap: 7px; }
+.ctrl-sep { width: 1px; height: 16px; background: var(--b1); flex-shrink: 0; }
 .wake-btn { background: none; border: 1px solid var(--b1); border-radius: var(--r); padding: 4px 10px; font-size: 12px; cursor: pointer; color: var(--t2); font-family: inherit; transition: all .15s; }
 .wake-btn.on { background: var(--amberh); border-color: var(--amber); color: var(--amber); font-weight: 600; }
-.ver-sel { background: var(--bg); border: 1px solid var(--b1); border-radius: var(--r); padding: 4px 26px 4px 9px; font-size: 12px; color: var(--t1); font-family: inherit; cursor: pointer; outline: none; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%235a4e42' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 8px center; }
-.ver-sel:focus { border-color: var(--amber); }
-.ver-sel option { background: var(--bg2); }
 
-/* ── FIXED SCROLL PANEL ── */
-.scroll-panel {
-  position: fixed;
-  right: 14px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: var(--bg2);
-  border: 1px solid var(--b2);
-  border-radius: var(--r2);
-  padding: 10px 7px;
-  display: none;
-  flex-direction: column;
-  gap: 5px;
-  z-index: 40;
-  align-items: stretch;
-  min-width: 68px;
-  box-shadow: 0 4px 20px rgba(0,0,0,.5);
-}
-.scroll-panel.vis { display: flex; }
-.spl { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .8px; color: var(--t3); text-align: center; margin-bottom: 2px; }
-.sp-sep { height: 1px; background: var(--b1); margin: 2px 0; }
-.sp-btn { background: none; border: 1px solid var(--b1); border-radius: 7px; padding: 7px 6px; font-size: 11px; cursor: pointer; color: var(--t2); font-family: inherit; transition: all .15s; text-align: center; white-space: nowrap; }
-.sp-btn:hover { border-color: var(--amber); color: var(--amber); }
-.sp-btn.on { background: var(--amber); border-color: var(--amber); color: #fff; font-weight: 600; }
-.sp-stop { color: var(--t3); font-size: 13px; }
-.sp-stop.on { background: var(--bg3); border-color: var(--b2); color: var(--t2); }
+/* ── VERSION PILLS ── */
+.ver-pills { display: flex; gap: 5px; flex-wrap: wrap; }
+.ver-pill { background: none; border: 1px solid var(--b1); border-radius: var(--r); padding: 4px 12px; font-size: 12px; cursor: pointer; color: var(--t2); font-family: inherit; transition: all .15s; }
+.ver-pill.active { background: var(--amberh); border-color: var(--amber); color: var(--amber); font-weight: 600; }
 
-@media (max-width: 640px) {
-  .scroll-panel {
-    right: 10px; top: auto; bottom: 16px;
-    transform: none;
-    flex-direction: row;
-    min-width: auto;
-    padding: 7px 9px;
-    gap: 6px;
-    align-items: center;
-  }
-  .spl { display: none; }
-  .sp-sep { display: none; }
-  .sp-btn { padding: 6px 8px; }
-}
-
-/* ── CHORD BOX ── */
-.chord-box {
-  background: var(--bg2); border: 1px solid var(--b1); border-radius: var(--r2);
-  padding: 20px 24px; font-family: monospace; font-size: 13.5px; overflow-x: auto;
-  /* right padding to avoid fixed panel overlap */
-  padding-right: 90px;
-}
-.cline { white-space: pre; display: block; line-height: 1.85; }
-.le { height: .5em; display: block; }
+/* ── CHORD BOX + COLLAPSIBLE SECTIONS ── */
+.chord-box { background: var(--bg2); border: 1px solid var(--b1); border-radius: var(--r2); padding: 20px 24px; font-family: monospace; font-size: 13.5px; line-height: 1.85; overflow-x: auto; }
+.csec { margin-bottom: 2px; }
+.shdr { display: flex; align-items: center; gap: 8px; background: none; border: none; cursor: pointer; color: var(--sec); font-family: monospace; font-size: 13.5px; font-weight: 700; padding: 1px 0; width: 100%; text-align: left; line-height: 1.85; transition: opacity .15s; }
+.shdr:hover { opacity: .7; }
+.sarr { color: var(--t3); font-size: 11px; width: 12px; flex-shrink: 0; }
+.sbody { white-space: pre; padding-bottom: 8px; }
+.sbody.clp { display: none; }
+.le { display: block; height: .45em; }
 .lc { color: var(--chord); font-weight: 600; }
-.ls-hdr { color: var(--sec); } /* used inside sec-hdr */
 .lt { color: var(--tab); }
 .ll { color: var(--t1); }
-/* Collapsible sections */
-.sec-wrap { margin: 2px 0; }
-.sec-hdr {
-  display: flex; align-items: center; gap: 6px;
-  cursor: pointer; user-select: none; padding: 3px 0;
-  border-radius: 5px; transition: background .12s;
-  line-height: 1.6;
-}
-.sec-hdr:hover { background: rgba(255,255,255,.04); }
-.sec-arr { color: var(--t3); font-size: 10px; flex-shrink: 0; width: 10px; }
-.sec-title { color: var(--sec); font-weight: 700; }
-.sec-body { display: block; }
-.sec-body.collapsed { display: none; }
-.sec-hint { font-size: 10px; color: var(--t3); margin-left: 16px; }
+
+/* ── FLOATING AUTOSCROLL BAR ── */
+.float-ctrl { position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%); background: var(--bg2); border: 1px solid var(--b2); border-radius: 28px; padding: 8px 14px; display: flex; align-items: center; gap: 7px; z-index: 60; box-shadow: 0 4px 28px rgba(0,0,0,.65); white-space: nowrap; }
+.float-ctrl.hid { display: none; }
+.float-lbl { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .8px; color: var(--t3); }
+.fsep { width: 1px; height: 14px; background: var(--b1); flex-shrink: 0; }
+.spd { background: none; border: 1px solid var(--b1); border-radius: var(--r); padding: 4px 10px; font-size: 12px; cursor: pointer; color: var(--t2); font-family: inherit; transition: all .15s; }
+.spd:hover { border-color: var(--amber); color: var(--amber); }
+.spd.on { background: var(--amber); border-color: var(--amber); color: #fff; font-weight: 600; }
 
 /* ── FORMS ── */
 .pgtitle { font-size: 22px; font-weight: 700; margin-bottom: 20px; color: var(--t1); }
@@ -170,23 +129,21 @@ body { background: var(--bg); color: var(--t1); font-family: system-ui,-apple-sy
 input[type=text], input[type=url], input[type=password], select {
   width: 100%; padding: 9px 11px; background: var(--bg); border: 1px solid var(--b1); border-radius: var(--r); color: var(--t1); font-size: 14px; outline: none; font-family: inherit;
 }
-select { cursor: pointer; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%235a4e42' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; padding-right: 30px; }
+select { cursor: pointer; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235a4e42' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px; }
 select option { background: var(--bg2); }
 input:focus, select:focus, textarea:focus { border-color: var(--amber); }
 textarea { width: 100%; padding: 11px; background: var(--bg); border: 1px solid var(--b1); border-radius: var(--r); color: var(--t1); font-size: 13px; outline: none; font-family: monospace; min-height: 320px; resize: vertical; line-height: 1.75; }
+.hint { font-size: 12px; color: var(--t3); line-height: 1.6; margin-bottom: 12px; }
+.hint strong { color: var(--t2); }
 
 /* ── VERSION TABS (edit) ── */
-.ver-tabs { display: flex; gap: 3px; margin-bottom: 14px; flex-wrap: wrap; align-items: center; }
-.ver-tab { background: none; border: 1px solid var(--b1); border-radius: var(--r); padding: 5px 12px; font-size: 12px; cursor: pointer; color: var(--t2); font-family: inherit; transition: all .15s; display: flex; align-items: center; gap: 6px; }
-.ver-tab:hover { border-color: var(--b2); color: var(--t1); }
+.ver-tabs-row { display: flex; gap: 4px; align-items: center; flex-wrap: wrap; margin-bottom: 14px; }
+.ver-tab { background: none; border: 1px solid var(--b1); border-radius: var(--r); padding: 5px 13px; font-size: 12px; cursor: pointer; color: var(--t2); font-family: inherit; transition: all .15s; }
 .ver-tab.active { background: var(--amberh); border-color: var(--amber); color: var(--amber); font-weight: 600; }
-.ver-tab-del { background: none; border: none; color: inherit; cursor: pointer; font-size: 13px; padding: 0; line-height: 1; opacity: .7; }
-.ver-tab-del:hover { opacity: 1; }
-.ver-tab-add { border-style: dashed; }
-.ver-tab-add:hover { border-color: var(--amber); color: var(--amber); border-style: dashed; }
-.ver-name-row { display: flex; gap: 8px; align-items: center; margin-bottom: 10px; }
-.ver-name-row input { flex: 1; }
-.ver-info { font-size: 12px; color: var(--t3); margin-bottom: 10px; }
+.ver-add-btn { background: none; border: 1px dashed var(--b2); border-radius: var(--r); padding: 5px 10px; font-size: 12px; cursor: pointer; color: var(--t3); font-family: inherit; transition: all .15s; }
+.ver-add-btn:hover { border-color: var(--amber); color: var(--amber); }
+.ver-meta { background: var(--bg3); border: 1px solid var(--b1); border-radius: var(--r); padding: 12px; margin-bottom: 12px; display: flex; gap: 8px; align-items: flex-end; }
+.ver-meta > div { flex: 1; }
 
 /* ── IMPORT TABS ── */
 .itabs { display: flex; gap: 2px; background: var(--bg3); border-radius: var(--r); padding: 3px; margin-bottom: 16px; }
@@ -194,8 +151,6 @@ textarea { width: 100%; padding: 11px; background: var(--bg); border: 1px solid 
 .itab.active { background: var(--card); color: var(--t1); font-weight: 600; }
 .iblock { display: none; }
 .iblock.show { display: block; }
-.hint { font-size: 12px; color: var(--t3); line-height: 1.6; margin-bottom: 12px; }
-.hint strong { color: var(--t2); }
 
 /* ── BUTTONS ── */
 .btn-row { display: flex; gap: 9px; flex-wrap: wrap; margin-top: 16px; }
@@ -204,10 +159,14 @@ textarea { width: 100%; padding: 11px; background: var(--bg); border: 1px solid 
 .btn-primary:disabled { opacity: .5; cursor: not-allowed; }
 .btn-secondary { background: none; border: 1px solid var(--b2); color: var(--t2); border-radius: var(--r); padding: 9px 18px; font-size: 13px; cursor: pointer; font-family: inherit; }
 .btn-secondary:hover { border-color: var(--t2); }
+.btn-sm { background: none; border: 1px solid var(--b2); color: var(--t2); border-radius: var(--r); padding: 7px 12px; font-size: 12px; cursor: pointer; font-family: inherit; transition: all .15s; }
+.btn-sm:hover { border-color: var(--t2); }
+.btn-sm-danger { background: none; border: 1px solid #7a3030; color: #c04040; border-radius: var(--r); padding: 7px 12px; font-size: 12px; cursor: pointer; font-family: inherit; }
+.btn-sm-danger:hover { background: rgba(180,40,40,.1); }
 .btn-full { width: 100%; background: none; border: 1px solid var(--b2); color: var(--t1); border-radius: var(--r); padding: 9px 14px; font-size: 13px; cursor: pointer; font-family: inherit; text-align: left; transition: border-color .15s; margin-bottom: 8px; }
 .btn-full:hover { border-color: var(--amber); color: var(--amber); }
-.btn-danger { border-color: #7a3030; color: #c04040; }
-.btn-danger:hover { border-color: #c04040; background: rgba(180,40,40,.08); color: #c04040; }
+.btn-full-danger { border-color: #7a3030; color: #c04040; }
+.btn-full-danger:hover { border-color: #c04040; background: rgba(180,40,40,.08); color: #c04040; }
 
 /* ── STATUS ── */
 .status { padding: 10px 13px; border-radius: var(--r); font-size: 13px; margin-top: 10px; border: 1px solid; line-height: 1.5; }
@@ -226,11 +185,18 @@ textarea { width: 100%; padding: 11px; background: var(--bg); border: 1px solid 
 .empty h3 { font-size: 16px; font-weight: 600; color: var(--t1); margin-bottom: 6px; }
 .empty p { font-size: 13px; }
 
+/* ── LOGIN MODAL ── */
+.modal-ov { position: fixed; inset: 0; background: rgba(0,0,0,.7); z-index: 200; display: flex; align-items: center; justify-content: center; }
+.modal-box { background: var(--card); border: 1px solid var(--b2); border-radius: var(--r2); padding: 26px; max-width: 340px; width: 90%; }
+.modal-box h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+.modal-box p { font-size: 13px; color: var(--t2); margin-bottom: 16px; line-height: 1.5; }
+.pw-error { color: #c04040; font-size: 12px; margin-top: 6px; display: none; }
+
 /* ── SETTINGS PANEL ── */
 .sp-ov { position: fixed; inset: 0; background: rgba(0,0,0,.55); z-index: 99; display: none; }
 .sp-ov.open { display: block; }
-.sp-panel { position: fixed; top: 0; right: 0; bottom: 0; width: min(320px, 100vw); background: var(--bg2); border-left: 1px solid var(--b2); z-index: 100; display: flex; flex-direction: column; transform: translateX(100%); transition: transform .22s ease; }
-.sp-panel.open { transform: translateX(0); }
+.sp { position: fixed; top: 0; right: 0; bottom: 0; width: min(330px, 100vw); background: var(--bg2); border-left: 1px solid var(--b2); z-index: 100; display: flex; flex-direction: column; transform: translateX(100%); transition: transform .22s ease; }
+.sp.open { transform: translateX(0); }
 .sp-hd { padding: 15px 18px; border-bottom: 1px solid var(--b1); display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
 .sp-hd h2 { font-size: 14px; font-weight: 700; }
 .sp-x { background: none; border: none; color: var(--t2); font-size: 20px; cursor: pointer; padding: 2px 5px; line-height: 1; }
@@ -238,18 +204,25 @@ textarea { width: 100%; padding: 11px; background: var(--bg); border: 1px solid 
 .sp-sec { margin-bottom: 22px; }
 .sp-sec h3 { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--t3); margin-bottom: 10px; }
 .sp-hint { font-size: 12px; color: var(--t3); line-height: 1.5; margin-bottom: 10px; }
+.sp-hint a { color: var(--amber); }
+.locked-msg { text-align: center; padding: 36px 16px; }
+.locked-msg .lock-ic { font-size: 40px; margin-bottom: 14px; }
+.locked-msg p { font-size: 13px; color: var(--t2); line-height: 1.5; margin-bottom: 16px; }
+.locked-msg small { font-size: 11px; color: var(--t3); line-height: 1.5; }
 
-@media (max-width: 500px) {
-  .topbar { padding: 0 12px; }
-  .wrap { padding: 14px 12px 50px; }
-  .chord-box { font-size: 12px; padding: 14px 14px 14px 14px; padding-right: 14px; }
-  .tab { padding: 5px 9px; }
+@media (max-width: 560px) {
+  .topbar { padding: 0 12px; gap: 7px; }
+  .wrap { padding: 14px 12px 90px; }
+  .chord-box { font-size: 12px; padding: 14px 12px; }
+  .shdr { font-size: 12px; }
+  .sbody { font-size: 12px; }
+  .float-ctrl { left: 8px; right: 8px; transform: none; border-radius: 16px; flex-wrap: wrap; justify-content: center; gap: 5px; }
+  .float-lbl, .float-ctrl .fsep:first-of-type { display: none; }
 }
 </style>
 </head>
 <body>
 
-<!-- Topbar -->
 <div class="topbar">
   <div class="logo" onclick="goHome()">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -262,87 +235,172 @@ textarea { width: 100%; padding: 11px; background: var(--bg); border: 1px solid 
     <button class="tab" id="tab-s" onclick="goAllSongs()">Canciones</button>
   </div>
   <div class="topbar-r">
+    <button class="btn-ico" id="lockBtn" onclick="handleLockClick()" title="Acceso administrador">🔒</button>
     <button class="btn-ico" onclick="openSettings()">⚙ Ajustes</button>
-    <button class="btn-new" onclick="go('add')">+ Agregar</button>
+    <button class="btn-new admin-only" onclick="go('add')">+ Agregar</button>
   </div>
 </div>
 
-<!-- Main view -->
 <div class="wrap"><div id="view"></div></div>
 
-<!-- Fixed scroll panel (only visible in song view) -->
-<div class="scroll-panel" id="scrollPanel">
-  <div class="spl">Scroll</div>
-  <button class="sp-btn" id="sp0" onclick="toggleScroll(0)">Lenta</button>
-  <button class="sp-btn" id="sp1" onclick="toggleScroll(1)">Normal</button>
-  <button class="sp-btn" id="sp2" onclick="toggleScroll(2)">Rápida</button>
-  <button class="sp-btn" id="sp3" onclick="toggleScroll(3)">Muy r.</button>
-  <div class="sp-sep"></div>
-  <button class="sp-btn sp-stop" id="spStop" onclick="stopScroll()">⏹</button>
+<!-- Floating autoscroll bar -->
+<div class="float-ctrl hid" id="floatCtrl">
+  <span class="float-lbl">Scroll</span>
+  <div class="fsep"></div>
+  <button class="spd" id="fspd0" onclick="toggleScroll(0)">Lenta</button>
+  <button class="spd" id="fspd1" onclick="toggleScroll(1)">Normal</button>
+  <button class="spd" id="fspd2" onclick="toggleScroll(2)">Rápida</button>
+  <button class="spd" id="fspd3" onclick="toggleScroll(3)">Muy rápida</button>
+  <div class="fsep"></div>
+  <button class="spd" id="fspdStop" onclick="stopScroll()">⏹ Parar</button>
 </div>
+
+<!-- Login modal -->
+<div id="loginModal" class="modal-ov" style="display:none">
+  <div class="modal-box">
+    <h3>🔒 Acceso de administrador</h3>
+    <p>Ingresá la contraseña para activar la edición de canciones.</p>
+    <input type="password" id="pwInput" placeholder="Contraseña..." autocomplete="current-password"
+      onkeydown="if(event.key==='Enter')submitLogin()" />
+    <div class="pw-error" id="pwError">Contraseña incorrecta. Intentá nuevamente.</div>
+    <div class="btn-row" style="margin-top:14px">
+      <button class="btn-primary" onclick="submitLogin()">Acceder</button>
+      <button class="btn-secondary" onclick="closeLoginModal()">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<!-- File input for import (lives outside panel so it persists) -->
+<input type="file" id="impFile" accept=".json" style="display:none" onchange="importSongs(this)">
 
 <!-- Settings panel -->
 <div class="sp-ov" id="spOv" onclick="closeSettings()"></div>
-<div class="sp-panel" id="spPanel">
+<div class="sp" id="sp">
   <div class="sp-hd">
     <h2>⚙ Ajustes</h2>
     <button class="sp-x" onclick="closeSettings()">×</button>
   </div>
-  <div class="sp-body">
-    <div class="sp-sec">
-      <h3>Backup</h3>
-      <p class="sp-hint">Exportá tus canciones antes de actualizar el HTML. Importá para restaurar en cualquier momento o dispositivo.</p>
-      <button class="btn-full" onclick="exportSongs()">⬇ Exportar canciones (.json)</button>
-      <button class="btn-full" onclick="document.getElementById('impFile').click()">⬆ Importar canciones (.json)</button>
-      <input type="file" id="impFile" accept=".json" style="display:none" onchange="importSongs(this)">
-      <div id="impMsg"></div>
-    </div>
-    <div class="sp-sec">
-      <h3>Datos</h3>
-      <p class="sp-hint" id="songCount"></p>
-      <button class="btn-full btn-danger" onclick="confirmClear()">🗑 Borrar todas las canciones</button>
-    </div>
-  </div>
+  <div class="sp-body" id="spBody"></div>
 </div>
 
 <script>
-// ── STATE ──────────────────────────────────────────────────────────────────
-let songs = [];
-let curView = 'artists', sortMode = 'artist', searchQ = '', fromView = 'artists';
-let scrollRaf = null, scrollIdx = -1;
-const SPEEDS = [0.35, 0.9, 1.9, 3.8];
-let wakeLock = null, wakeOn = false;
-let curVersionIdx = 0;
-let sectionStates = {};   // { secIdx: collapsed(bool) }
-let importTab = 'paste';
-// Edit state
-let editVersions = [];
-let editVerIdx = 0;
+// ═══════════════════════════════════════════════════════════════
+// CONSTANTS
+// ═══════════════════════════════════════════════════════════════
 
-// ── DATA & MIGRATION ────────────────────────────────────────────────────────
-// Songs are stored with versions:[{name,content}].
-// Old format had a top-level content string — migrated on load.
-function migrateSong(s) {
-  if (!s.versions) {
-    s.versions = [{ name: 'Principal', content: s.content || '' }];
+// Bump DEPLOY_VERSION when you redeploy and want to reset the custom password back to default.
+const DEPLOY_VERSION    = 'v1';
+const DEFAULT_PASSWORD  = 'Passwor#inicial#1234';
+const PW_SALT           = 'cnc_salt_v1_';  // salt mixed into hash (don't change across versions)
+
+// ═══════════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════════
+let songs         = [];
+let curView       = 'artists';
+let sortMode      = 'artist';
+let searchQ       = '';
+let fromView      = 'artists';
+let curSongId     = null;
+let curVersionIdx = 0;
+let editVersions  = [];
+let editVersionIdx = 0;
+let importTab     = 'paste';
+let scrollRaf     = null;
+let scrollIdx     = -1;
+let wakeLock      = null;
+let wakeOn        = false;
+let isAdmin       = false;    // in-memory only — resets on page reload
+
+const SPEEDS      = [0.35, 0.9, 1.9, 3.8];
+const SPEED_NAMES = ['Lenta', 'Normal', 'Rápida', 'Muy rápida'];
+
+// ═══════════════════════════════════════════════════════════════
+// AUTH — SHA-256 via Web Crypto API (available in all modern browsers + GitHub Pages HTTPS)
+// ═══════════════════════════════════════════════════════════════
+function initAuth() {
+  // If deploy version changed, clear the stored custom password → default password becomes active again.
+  if (localStorage.getItem('cnc_deploy_ver') !== DEPLOY_VERSION) {
+    localStorage.removeItem('cnc_pwhash');
+    localStorage.setItem('cnc_deploy_ver', DEPLOY_VERSION);
   }
-  if (!s.versions.length) s.versions = [{ name: 'Principal', content: '' }];
-  // Ensure first version is always called Principal
-  if (s.versions[0].name !== 'Principal') s.versions[0].name = 'Principal';
-  return s;
 }
+
+async function hashPw(pw) {
+  const data = new TextEncoder().encode(PW_SALT + pw);
+  const buf  = await crypto.subtle.digest('SHA-256', data);
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+async function checkPassword(input) {
+  const inputHash  = await hashPw(input);
+  const storedHash = localStorage.getItem('cnc_pwhash');
+  if (storedHash) return inputHash === storedHash;
+  const defaultHash = await hashPw(DEFAULT_PASSWORD);
+  return inputHash === defaultHash;
+}
+
+function openLoginModal() {
+  document.getElementById('pwInput').value    = '';
+  document.getElementById('pwError').style.display = 'none';
+  document.getElementById('loginModal').style.display = 'flex';
+  setTimeout(() => document.getElementById('pwInput').focus(), 80);
+}
+function closeLoginModal() {
+  document.getElementById('loginModal').style.display = 'none';
+}
+async function submitLogin() {
+  const pw = document.getElementById('pwInput').value;
+  const ok = await checkPassword(pw);
+  if (ok) {
+    isAdmin = true;
+    updateAdminUI();
+    closeLoginModal();
+  } else {
+    document.getElementById('pwError').style.display = 'block';
+    document.getElementById('pwInput').value = '';
+    document.getElementById('pwInput').focus();
+  }
+}
+function handleLockClick() {
+  if (isAdmin) {
+    isAdmin = false;
+    updateAdminUI();
+  } else {
+    openLoginModal();
+  }
+}
+function updateAdminUI() {
+  document.body.classList.toggle('admin', isAdmin);
+  const lb = document.getElementById('lockBtn');
+  if (lb) {
+    lb.textContent = isAdmin ? '🔓' : '🔒';
+    lb.className   = 'btn-ico' + (isAdmin ? ' unlocked' : '');
+    lb.title       = isAdmin ? 'Cerrar sesión de administrador' : 'Acceso administrador';
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// DATA — localStorage with migration from old {content} to {versions:[]}
+// ═══════════════════════════════════════════════════════════════
 function loadData() {
-  try { songs = JSON.parse(localStorage.getItem('cnc_songs') || '[]').map(migrateSong); }
-  catch(e) { songs = []; }
+  try { songs = JSON.parse(localStorage.getItem('cnc_songs') || '[]'); } catch(e) { songs = []; }
+  songs = songs.map(s => {
+    if (!Array.isArray(s.versions) || !s.versions.length) {
+      const { content, ...rest } = s;
+      return { ...rest, versions: [{ name: 'Principal', content: content || '' }] };
+    }
+    return s;
+  });
 }
 function saveData() { localStorage.setItem('cnc_songs', JSON.stringify(songs)); }
-// Helper: get active content for a song
-function getSongContent(s, vidx) {
-  const v = (s.versions || [])[vidx] || s.versions[0];
-  return v ? v.content : '';
+function getVersions(s) {
+  return (Array.isArray(s.versions) && s.versions.length) ? s.versions : [{ name: 'Principal', content: s.content || '' }];
 }
 
-// ── EXPORT / IMPORT ────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════
+// EXPORT / IMPORT
+// ═══════════════════════════════════════════════════════════════
 function exportSongs() {
   if (!songs.length) { alert('No hay canciones para exportar.'); return; }
   const blob = new Blob([JSON.stringify(songs, null, 2)], { type: 'application/json' });
@@ -357,125 +415,221 @@ function importSongs(input) {
   reader.onload = function(e) {
     const msg = document.getElementById('impMsg');
     try {
-      const data = JSON.parse(e.target.result).map(migrateSong);
+      let data = JSON.parse(e.target.result);
       if (!Array.isArray(data)) throw new Error('Formato inválido');
+      data = data.map(s => {
+        if (!Array.isArray(s.versions) || !s.versions.length) {
+          const { content, ...rest } = s;
+          return { ...rest, versions: [{ name: 'Principal', content: content || '' }] };
+        }
+        return s;
+      });
       const valid = data.filter(s => s.id && s.title && s.artist && s.versions);
       if (!valid.length) throw new Error('No se encontraron canciones válidas');
       const existingIds = new Set(songs.map(s => s.id));
       const newOnes = valid.filter(s => !existingIds.has(s.id));
-      const dupes = valid.length - newOnes.length;
+      const dupes   = valid.length - newOnes.length;
       songs = [...newOnes, ...songs]; saveData(); updateCount();
-      let txt = '✓ ' + newOnes.length + ' canción' + (newOnes.length !== 1 ? 'es' : '') + ' importada' + (newOnes.length !== 1 ? 's' : '') + '.';
-      if (dupes) txt += ' (' + dupes + ' duplicada' + (dupes !== 1 ? 's' : '') + ', omitida' + (dupes !== 1 ? 's' : '') + ')';
-      msg.innerHTML = '<div class="status st-ok" style="margin-top:8px">' + txt + '</div>';
-      setTimeout(function() { msg.innerHTML = ''; }, 4000);
+      let txt = `✓ ${newOnes.length} canción${newOnes.length !== 1 ? 'es' : ''} importada${newOnes.length !== 1 ? 's' : ''}.`;
+      if (dupes) txt += ` (${dupes} duplicada${dupes !== 1 ? 's' : ''}, omitida${dupes !== 1 ? 's' : ''})`;
+      if (msg) { msg.innerHTML = `<div class="status st-ok" style="margin-top:8px">${txt}</div>`; setTimeout(() => { msg.innerHTML = ''; }, 4000); }
       goHome();
     } catch(err) {
-      msg.innerHTML = '<div class="status st-err" style="margin-top:8px">Error: ' + esc(err.message) + '</div>';
+      if (msg) msg.innerHTML = `<div class="status st-err" style="margin-top:8px">Error: ${esc(err.message)}</div>`;
     }
     input.value = '';
   };
   reader.readAsText(file);
 }
 
-// ── SETTINGS ───────────────────────────────────────────────────────────────
-function openSettings() { document.getElementById('spPanel').classList.add('open'); document.getElementById('spOv').classList.add('open'); updateCount(); }
-function closeSettings() { document.getElementById('spPanel').classList.remove('open'); document.getElementById('spOv').classList.remove('open'); }
-function updateCount() { const el = document.getElementById('songCount'); if (el) el.textContent = songs.length + ' canción' + (songs.length !== 1 ? 'es' : '') + ' guardada' + (songs.length !== 1 ? 's' : '') + '.'; }
+// ═══════════════════════════════════════════════════════════════
+// SETTINGS PANEL
+// ═══════════════════════════════════════════════════════════════
+function openSettings() {
+  document.getElementById('spBody').innerHTML = isAdmin ? adminSettingsHTML() : lockedSettingsHTML();
+  document.getElementById('sp').classList.add('open');
+  document.getElementById('spOv').classList.add('open');
+  updateCount();
+}
+function closeSettings() {
+  document.getElementById('sp').classList.remove('open');
+  document.getElementById('spOv').classList.remove('open');
+}
+function updateCount() {
+  const el = document.getElementById('songCount');
+  if (el) el.textContent = songs.length + ' canción' + (songs.length !== 1 ? 'es' : '') + ' guardada' + (songs.length !== 1 ? 's' : '') + '.';
+}
+function lockedSettingsHTML() {
+  return '<div class="locked-msg">' +
+    '<div class="lock-ic">🔒</div>' +
+    '<p>Los ajustes requieren acceso de administrador.</p>' +
+    '<button class="btn-primary" onclick="closeSettings();openLoginModal()">Iniciar sesión</button>' +
+    '<br><br><small>Si olvidaste la contraseña, cambiá la variable <code>DEPLOY_VERSION</code> en el código HTML y volvé a subir el archivo. Eso restablece la contraseña por defecto.</small>' +
+    '</div>';
+}
+function adminSettingsHTML() {
+  return '<div class="sp-sec">' +
+      '<h3>Backup</h3>' +
+      '<p class="sp-hint">Exportá tus canciones antes de actualizar el HTML. Importá para restaurarlas en cualquier momento o dispositivo.</p>' +
+      '<button class="btn-full" onclick="exportSongs()">⬇ Exportar canciones (.json)</button>' +
+      '<button class="btn-full" onclick="document.getElementById(\'impFile\').click()">⬆ Importar canciones (.json)</button>' +
+      '<div id="impMsg"></div>' +
+    '</div>' +
+    '<div class="sp-sec">' +
+      '<h3>Contraseña de administrador</h3>' +
+      '<p class="sp-hint">La nueva contraseña reemplaza a la actual. Se guarda como hash SHA-256, nunca en texto plano.</p>' +
+      '<span class="flabel" style="margin-top:0">Contraseña actual</span>' +
+      '<input type="password" id="pwOld" autocomplete="current-password" />' +
+      '<span class="flabel">Nueva contraseña</span>' +
+      '<input type="password" id="pwNew1" autocomplete="new-password" />' +
+      '<span class="flabel">Repetir nueva contraseña</span>' +
+      '<input type="password" id="pwNew2" autocomplete="new-password" />' +
+      '<div class="btn-row">' +
+        '<button class="btn-primary" style="font-size:13px;padding:8px 16px" onclick="doChangePassword()">Guardar contraseña</button>' +
+        '<button class="btn-sm" onclick="resetToDefaultPw()">Restablecer a default</button>' +
+      '</div>' +
+      '<div id="pwChangeMsg"></div>' +
+    '</div>' +
+    '<div class="sp-sec">' +
+      '<h3>Datos</h3>' +
+      '<p class="sp-hint" id="songCount"></p>' +
+      '<button class="btn-full btn-full-danger" onclick="confirmClear()">🗑 Borrar todas las canciones</button>' +
+    '</div>';
+}
 function confirmClear() {
   if (!songs.length) { alert('No hay canciones.'); return; }
   if (confirm('¿Borrar las ' + songs.length + ' canciones?\n\nTip: exportalas primero.')) {
     songs = []; saveData(); updateCount(); closeSettings(); goHome();
   }
 }
-
-// ── CHORD CLASSIFIER ──────────────────────────────────────────────────────
-const C_RE = /^([A-G][b#]?(m|maj|min|aug|dim|sus2|sus4|sus|add9|add|maj7|m7b5|m7|7|9|11|13|6|5|4|2)?(\d)?(\/[A-G][b#]?)?\s*)+$/;
-const S_RE = /^\[.+\]$/;
-const T_RE = /^[eEBGDAd]\|/;
-function classify(l) { const t = l.trim(); if (!t) return 'e'; if (S_RE.test(t)) return 's'; if (T_RE.test(t)) return 't'; if (C_RE.test(t)) return 'c'; return 'l'; }
-function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-function chordPreview(c) { for (const l of c.split('\n')) { if (classify(l) === 'c') return esc(l.trim().slice(0, 44)); } return ''; }
-
-// ── CHORD RENDERER (with collapsible sections) ─────────────────────────────
-function renderLine(line) {
-  const k = classify(line);
-  if (k === 'e') return '<div class="le"></div>';
-  return '<div class="cline l' + k + '">' + esc(line) + '</div>';
+async function doChangePassword() {
+  const oldPw = document.getElementById('pwOld').value;
+  const new1  = document.getElementById('pwNew1').value;
+  const new2  = document.getElementById('pwNew2').value;
+  const msg   = document.getElementById('pwChangeMsg');
+  if (new1 !== new2)  { msg.innerHTML = '<div class="status st-err">Las contraseñas nuevas no coinciden.</div>'; return; }
+  if (new1.length < 8) { msg.innerHTML = '<div class="status st-err">La nueva contraseña debe tener al menos 8 caracteres.</div>'; return; }
+  const valid = await checkPassword(oldPw);
+  if (!valid) { msg.innerHTML = '<div class="status st-err">La contraseña actual es incorrecta.</div>'; return; }
+  localStorage.setItem('cnc_pwhash', await hashPw(new1));
+  msg.innerHTML = '<div class="status st-ok">✓ Contraseña actualizada correctamente.</div>';
+  ['pwOld','pwNew1','pwNew2'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+  setTimeout(() => { msg.innerHTML = ''; }, 4000);
+}
+function resetToDefaultPw() {
+  if (confirm('¿Restablecer la contraseña por defecto?\n\nEsto elimina la contraseña personalizada y vuelve a usar la contraseña inicial.')) {
+    localStorage.removeItem('cnc_pwhash');
+    const msg = document.getElementById('pwChangeMsg');
+    if (msg) { msg.innerHTML = '<div class="status st-ok">✓ Contraseña restablecida a la predeterminada.</div>'; setTimeout(() => { msg.innerHTML = ''; }, 3000); }
+  }
 }
 
-function buildSections(txt) {
+// ═══════════════════════════════════════════════════════════════
+// CHORD RENDERER — token-based detection, much more robust
+// ═══════════════════════════════════════════════════════════════
+
+// Single-chord token regex.
+// Handles: C Cm Cmaj Cmaj7 Cmaj9 Cmaj11 Cmaj13 Cm7 Cm9 Cm7b5 C7 C9 C11 C13
+//          C7b5 C7#5 C7b9 C7#9 C7#11 C13b9 Csus Csus2 Csus4 G7sus4 D7sus2
+//          Caug Caug7 Cdim Cdim7 C5 C6 C/G Am/E G7/F# — and more.
+// Quality order matters: "maj" before "m" to avoid "m" consuming "ma".
+const CHORD_TOKEN_RE = /^[A-G][b#]?(?:maj\d*|min\d*|m\d*|aug\d*|dim\d*|\d{1,2})?(?:[b#]\d+|sus\d*|add\d+|\(\S*\))*(?:\/[A-G][b#]?)?$/;
+
+// A line is a chord line if every whitespace-separated token matches CHORD_TOKEN_RE.
+function isChordLine(line) {
+  const tokens = line.trim().split(/\s+/);
+  return tokens.length > 0 && tokens[0] !== '' && tokens.every(t => CHORD_TOKEN_RE.test(t));
+}
+
+const S_RE = /^\[.+\]$/;   // [Section header]
+const T_RE = /^[eEBGDAd]\|/; // guitar tab line
+
+function classify(l) {
+  const t = l.trim();
+  if (!t)             return 'e';
+  if (t.startsWith('!!')) return 'c';  // !! prefix forces chord line
+  if (S_RE.test(t))   return 's';
+  if (T_RE.test(t))   return 't';
+  if (isChordLine(t)) return 'c';
+  return 'l';
+}
+
+function renderLine(l) {
+  const k = classify(l);
+  if (k === 'e') return '<span class="le"></span>\n';
+  // Strip !! prefix for display, preserving any leading whitespace
+  let display = (k === 'c' && l.trim().startsWith('!!')) ? l.replace(/^(\s*)!!/, '$1') : l;
+  // Section headers use the inline .ls color via the .shdr button (not here)
+  return '<span class="l' + k + '">' + esc(display) + '</span>\n';
+}
+
+function parseSections(content) {
+  const lines = content.split('\n');
   const sections = [];
-  let cur = null;
-  for (const line of txt.split('\n')) {
-    if (classify(line) === 's') {
-      cur = { title: line.trim(), lines: [] };
-      sections.push(cur);
+  let cur = { header: null, lines: [] };
+  for (const line of lines) {
+    if (S_RE.test(line.trim())) {
+      if (cur.header !== null || cur.lines.length > 0) sections.push(cur);
+      cur = { header: line.trim(), lines: [] };
     } else {
-      if (!cur) { cur = { title: null, lines: [] }; sections.push(cur); }
       cur.lines.push(line);
     }
   }
+  if (cur.header !== null || cur.lines.length > 0) sections.push(cur);
   return sections;
 }
 
-function renderSections(sections) {
-  let secIdx = 0;
-  return sections.map(function(sec) {
-    if (!sec.title) {
-      return sec.lines.map(renderLine).join('');
+function renderSections(content) {
+  return parseSections(content).map(function(sec) {
+    const bodyHtml = sec.lines.map(renderLine).join('');
+    if (sec.header) {
+      return '<div class="csec">' +
+        '<button class="shdr" onclick="toggleSec(this)">' +
+          '<span class="sarr">▾</span>' + esc(sec.header) +
+        '</button>' +
+        '<div class="sbody">' + bodyHtml + '</div>' +
+        '</div>';
     }
-    const idx = secIdx++;
-    const collapsed = !!sectionStates[idx];
-    const linesCount = sec.lines.filter(function(l) { return classify(l) !== 'e'; }).length;
-    return '<div class="sec-wrap">' +
-      '<div class="sec-hdr" id="sh-' + idx + '" onclick="toggleSection(' + idx + ')" data-t="' + esc(sec.title) + '">' +
-        '<span class="sec-arr" id="sa-' + idx + '">' + (collapsed ? '▶' : '▼') + '</span>' +
-        '<span class="sec-title">' + esc(sec.title) + '</span>' +
-        (collapsed ? '<span class="sec-hint">(' + linesCount + ' línea' + (linesCount !== 1 ? 's' : '') + ')</span>' : '') +
-      '</div>' +
-      '<div class="sec-body' + (collapsed ? ' collapsed' : '') + '" id="sb-' + idx + '">' +
-        sec.lines.map(renderLine).join('') +
-      '</div>' +
-    '</div>';
+    return '<div class="sbody">' + bodyHtml + '</div>';
   }).join('');
 }
 
-function toggleSection(idx) {
-  sectionStates[idx] = !sectionStates[idx];
-  const body = document.getElementById('sb-' + idx);
-  const arr  = document.getElementById('sa-' + idx);
-  const hdr  = document.getElementById('sh-' + idx);
-  if (!body || !arr || !hdr) return;
-  const collapsed = sectionStates[idx];
-  body.className = 'sec-body' + (collapsed ? ' collapsed' : '');
-  arr.textContent = collapsed ? '▶' : '▼';
-  // update hint
-  const existing = hdr.querySelector('.sec-hint');
-  if (existing) existing.remove();
-  if (collapsed) {
-    const linesCount = body.querySelectorAll('.cline').length;
-    const hint = document.createElement('span');
-    hint.className = 'sec-hint';
-    hint.textContent = '(' + linesCount + ' línea' + (linesCount !== 1 ? 's' : '') + ')';
-    hdr.appendChild(hint);
-  }
+function toggleSec(btn) {
+  const body = btn.nextElementSibling;
+  const arr  = btn.querySelector('.sarr');
+  arr.textContent = body.classList.toggle('clp') ? '▸' : '▾';
 }
 
-// ── NAVIGATION ────────────────────────────────────────────────────────────
+function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+function chordPreview(content) {
+  for (const l of content.split('\n')) {
+    if (classify(l) === 'c') {
+      // Strip !! for preview too
+      const t = l.trim().startsWith('!!') ? l.replace(/^(\s*)!!/, '$1') : l;
+      return esc(t.trim().slice(0, 44));
+    }
+  }
+  return '';
+}
+
+// ═══════════════════════════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════════════════════════
 function setTab(t) {
   document.getElementById('tab-a').className = 'tab' + (t === 'a' ? ' active' : '');
   document.getElementById('tab-s').className = 'tab' + (t === 's' ? ' active' : '');
 }
-function hideScrollPanel() { document.getElementById('scrollPanel').classList.remove('vis'); stopScroll(); }
-function showScrollPanel() { document.getElementById('scrollPanel').classList.add('vis'); }
-
+function setFloat(show) {
+  const el = document.getElementById('floatCtrl');
+  if (el) el.className = 'float-ctrl' + (show ? '' : ' hid');
+}
 function goHome()     { curView === 'all' ? goAllSongs() : goArtists(); }
-function goArtists()  { hideScrollPanel(); releaseWake(); curView = 'artists'; setTab('a'); renderArtists(); }
-function goAllSongs() { hideScrollPanel(); releaseWake(); curView = 'all';     setTab('s'); renderAllSongs(); }
+function goArtists()  { stopScroll(); releaseWake(); setFloat(false); curView = 'artists'; setTab('a'); renderArtists(); }
+function goAllSongs() { stopScroll(); releaseWake(); setFloat(false); curView = 'all';     setTab('s'); renderAllSongs(); }
 function go(view, id) {
-  if (view !== 'song') { hideScrollPanel(); releaseWake(); }
-  if (view === 'song') { fromView = curView; curVersionIdx = 0; sectionStates = {}; }
+  if (view !== 'song') { stopScroll(); releaseWake(); setFloat(false); }
+  if (view === 'song') fromView = curView;
   curView = view;
   if      (view === 'add')    { setTab(''); renderAdd(); }
   else if (view === 'song')   renderSong(id);
@@ -484,43 +638,53 @@ function go(view, id) {
   else if (view === 'artist') renderArtistDetail(id);
 }
 
-// ── RENDER: HOME VIEWS ─────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════
+// RENDER: ARTISTS
+// ═══════════════════════════════════════════════════════════════
 function groupByArtist() {
   const m = {};
-  songs.forEach(function(s) { const k = s.artist.trim(); if (!m[k]) m[k] = []; m[k].push(s); });
+  songs.forEach(s => { const k = s.artist.trim(); if (!m[k]) m[k] = []; m[k].push(s); });
   return m;
 }
 function renderArtists() {
   const v = document.getElementById('view');
   if (!songs.length) { v.innerHTML = emptyHTML(); return; }
   const map = groupByArtist();
-  const artists = Object.keys(map).sort(function(a,b) { return a.localeCompare(b,'es',{sensitivity:'base'}); });
-  v.innerHTML = '<div class="grid">' + artists.map(function(a) {
-    return '<div class="artist-card" onclick="go(\'artist\',\'' + esc(a) + '\')">' +
-      '<div class="ac-bar"></div>' +
-      '<div class="ac-name">' + esc(a) + '</div>' +
-      '<div class="ac-count">' + map[a].length + ' canción' + (map[a].length !== 1 ? 'es' : '') + '</div>' +
-      '</div>';
-  }).join('') + '</div>';
+  const artists = Object.keys(map).sort((a, b) => a.localeCompare(b, 'es', { sensitivity: 'base' }));
+  v.innerHTML = '<div class="grid">' + artists.map(a =>
+    '<div class="artist-card" onclick="go(\'artist\',\'' + esc(a) + '\')">' +
+    '<div class="ac-bar"></div>' +
+    '<div class="ac-name">' + esc(a) + '</div>' +
+    '<div class="ac-count">' + map[a].length + ' canción' + (map[a].length !== 1 ? 'es' : '') + '</div>' +
+    '</div>'
+  ).join('') + '</div>';
 }
+
+// ═══════════════════════════════════════════════════════════════
+// RENDER: ARTIST DETAIL
+// ═══════════════════════════════════════════════════════════════
 function renderArtistDetail(artist) {
-  const list = songs.filter(function(s) { return s.artist.trim() === artist; })
-    .sort(function(a,b) { return a.title.localeCompare(b.title,'es',{sensitivity:'base'}); });
+  const list = songs.filter(s => s.artist.trim() === artist)
+    .sort((a, b) => a.title.localeCompare(b.title, 'es', { sensitivity: 'base' }));
   document.getElementById('view').innerHTML =
     '<button class="back" onclick="goArtists()">← Artistas</button>' +
     '<div class="artist-hdr"><div class="ac-bar"></div><div class="artist-hdr-name">' + esc(artist) + '</div></div>' +
-    '<div class="grid">' + list.map(function(s) {
-      return '<div class="song-card" onclick="go(\'song\',\'' + s.id + '\')">' +
-        '<div class="sc-title">' + esc(s.title) + '</div>' +
-        '<div class="sc-preview">' + chordPreview(getSongContent(s, 0)) + '</div>' +
-        '</div>';
-    }).join('') + '</div>';
+    '<div class="grid">' + list.map(s =>
+      '<div class="song-card" onclick="go(\'song\',\'' + s.id + '\')">' +
+      '<div class="sc-title">' + esc(s.title) + '</div>' +
+      '<div class="sc-preview">' + chordPreview(getVersions(s)[0].content) + '</div>' +
+      '</div>'
+    ).join('') + '</div>';
 }
+
+// ═══════════════════════════════════════════════════════════════
+// RENDER: ALL SONGS
+// ═══════════════════════════════════════════════════════════════
 function renderAllSongs() {
-  let list = songs.slice();
-  if (searchQ) list = list.filter(function(s) { return s.title.toLowerCase().includes(searchQ.toLowerCase()) || s.artist.toLowerCase().includes(searchQ.toLowerCase()); });
-  if (sortMode === 'artist') list.sort(function(a,b) { return a.artist.localeCompare(b.artist,'es',{sensitivity:'base'}) || a.title.localeCompare(b.title,'es',{sensitivity:'base'}); });
-  else list.sort(function(a,b) { return a.title.localeCompare(b.title,'es',{sensitivity:'base'}); });
+  let list = [...songs];
+  if (searchQ) list = list.filter(s => s.title.toLowerCase().includes(searchQ.toLowerCase()) || s.artist.toLowerCase().includes(searchQ.toLowerCase()));
+  if (sortMode === 'artist') list.sort((a, b) => a.artist.localeCompare(b.artist, 'es', { sensitivity: 'base' }) || a.title.localeCompare(b.title, 'es', { sensitivity: 'base' }));
+  else list.sort((a, b) => a.title.localeCompare(b.title, 'es', { sensitivity: 'base' }));
   document.getElementById('view').innerHTML =
     '<div class="search-wrap"><span class="si">🔍</span>' +
     '<input class="search-input" type="text" placeholder="Buscar..." value="' + esc(searchQ) + '" oninput="searchQ=this.value;renderAllSongs()" /></div>' +
@@ -529,70 +693,60 @@ function renderAllSongs() {
     '<button class="sort-btn' + (sortMode==='title'?' active':'') + '" onclick="sortMode=\'title\';renderAllSongs()">Por canción</button></div>' +
     (!list.length
       ? (songs.length ? '<div class="empty"><div class="empty-ic">🔍</div><h3>Sin resultados</h3><p>Probá con otro término</p></div>' : emptyHTML())
-      : '<div class="grid">' + list.map(function(s) {
-          return '<div class="song-card" onclick="go(\'song\',\'' + s.id + '\')">' +
-            '<div class="sc-artist">' + esc(s.artist) + '</div>' +
-            '<div class="sc-title">' + esc(s.title) + '</div>' +
-            '<div class="sc-preview">' + chordPreview(getSongContent(s, 0)) + '</div>' +
-            '</div>';
-        }).join('') + '</div>'
+      : '<div class="grid">' + list.map(s =>
+          '<div class="song-card" onclick="go(\'song\',\'' + s.id + '\')">' +
+          '<div class="sc-artist">' + esc(s.artist) + '</div>' +
+          '<div class="sc-title">' + esc(s.title) + '</div>' +
+          '<div class="sc-preview">' + chordPreview(getVersions(s)[0].content) + '</div>' +
+          '</div>'
+        ).join('') + '</div>'
     );
 }
 
-// ── RENDER: SONG VIEW ──────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════
+// RENDER: SONG
+// ═══════════════════════════════════════════════════════════════
 function renderSong(id) {
-  const s = songs.find(function(x) { return x.id === id; });
-  if (!s) { goHome(); return; }
-
-  const backFn  = fromView === 'all' ? 'goAllSongs()' : fromView === 'artist' ? "go('artist','" + esc(s.artist.trim()) + "')" : 'goArtists()';
-  const backLbl = fromView === 'all' ? 'Canciones' : fromView === 'artist' ? esc(s.artist.trim()) : 'Artistas';
-  const hasMultiVer = s.versions.length > 1;
-
-  // Version selector HTML
-  const verSel = hasMultiVer
-    ? '<div class="csep"></div><div class="cgrp"><span class="clbl">Versión</span>' +
-      '<select class="ver-sel" id="verSel" onchange="changeVersion(\'' + id + '\',parseInt(this.value))">' +
-      s.versions.map(function(v, i) { return '<option value="' + i + '"' + (i === curVersionIdx ? ' selected' : '') + '>' + esc(v.name) + '</option>'; }).join('') +
-      '</select></div>'
+  const s = songs.find(x => x.id === id); if (!s) { goHome(); return; }
+  curSongId     = id;
+  curVersionIdx = Math.min(curVersionIdx, getVersions(s).length - 1);
+  const versions = getVersions(s);
+  const curV     = versions[curVersionIdx];
+  const backFn   = fromView === 'all' ? 'goAllSongs()' : fromView === 'artist' ? "go('artist','" + esc(s.artist.trim()) + "')" : 'goArtists()';
+  const backLbl  = fromView === 'all' ? 'Canciones' : fromView === 'artist' ? esc(s.artist.trim()) : 'Artistas';
+  const pillsHTML = versions.length > 1
+    ? '<div class="ctrl-sep"></div><span class="clbl">Versión</span><div class="ver-pills">' +
+      versions.map((v, i) => '<button class="ver-pill' + (i === curVersionIdx ? ' active' : '') + '" onclick="switchVersion(' + i + ')">' + esc(v.name) + '</button>').join('') +
+      '</div>'
     : '';
-
-  const content = getSongContent(s, curVersionIdx);
-  const sections = buildSections(content);
-
   document.getElementById('view').innerHTML =
     '<button class="back" onclick="' + backFn + '">← ' + backLbl + '</button>' +
     '<div class="song-albl">' + esc(s.artist) + '</div>' +
     '<div class="song-title">' + esc(s.title) + '</div>' +
     '<div class="actions">' +
-      '<button class="btn-edit" onclick="go(\'edit\',\'' + s.id + '\')">✏ Editar</button>' +
-      '<button class="btn-del"  onclick="go(\'del\',\''  + s.id + '\')">🗑 Eliminar</button>' +
+      '<button class="btn-edit admin-only" onclick="go(\'edit\',\'' + s.id + '\')">✏ Editar</button>' +
+      '<button class="btn-del admin-only"  onclick="go(\'del\',\''  + s.id + '\')">🗑 Eliminar</button>' +
     '</div>' +
-    '<div class="song-ctrl">' +
-      '<div class="cgrp">' +
-        '<span class="clbl">Pantalla</span>' +
-        '<button class="wake-btn" id="wakeBtn" onclick="toggleWake()">☀ Mantener activa</button>' +
-      '</div>' +
-      verSel +
+    '<div class="song-top-ctrl">' +
+      '<span class="clbl">Pantalla</span>' +
+      '<button class="wake-btn" id="wakeBtn" onclick="toggleWake()">☀ Mantener activa</button>' +
+      pillsHTML +
     '</div>' +
-    '<div class="chord-box" id="chordBox">' + renderSections(sections) + '</div>';
-
-  showScrollPanel();
-  updateScrollUI();
-  updateWakeUI();
+    '<div class="chord-box"><div id="chordContent">' + renderSections(curV.content) + '</div></div>';
+  setFloat(true); updateScrollUI(); updateWakeUI();
 }
 
-function changeVersion(id, vidx) {
-  curVersionIdx = vidx;
-  sectionStates = {};
-  const s = songs.find(function(x) { return x.id === id; });
-  if (!s) return;
-  const content = getSongContent(s, curVersionIdx);
-  const sections = buildSections(content);
-  const box = document.getElementById('chordBox');
-  if (box) box.innerHTML = renderSections(sections);
+function switchVersion(idx) {
+  curVersionIdx = idx;
+  const s = songs.find(x => x.id === curSongId); if (!s) return;
+  const versions = getVersions(s);
+  document.querySelectorAll('.ver-pill').forEach((b, i) => b.className = 'ver-pill' + (i === idx ? ' active' : ''));
+  document.getElementById('chordContent').innerHTML = renderSections(versions[Math.min(idx, versions.length - 1)].content);
 }
 
-// ── RENDER: ADD ────────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════
+// RENDER: ADD
+// ═══════════════════════════════════════════════════════════════
 function renderAdd() {
   document.getElementById('view').innerHTML =
     '<button class="back" onclick="goHome()">← Volver</button>' +
@@ -603,13 +757,13 @@ function renderAdd() {
       '<button class="itab' + (importTab==='ai'   ?' active':'') + '" onclick="switchItab(\'ai\')">Usar IA</button>' +
     '</div>' +
     '<div class="iblock' + (importTab==='paste'?' show':'') + '" id="iblock-paste">' +
-      '<p class="hint">Abrí la página de acordes, seleccioná todo (<strong>Ctrl+A</strong>), copialo (<strong>Ctrl+C</strong>) y pegalo acá.</p>' +
+      '<p class="hint">Abrí la página de acordes, seleccioná todo el texto (<strong>Ctrl+A</strong>), copialo (<strong>Ctrl+C</strong>) y pegalo acá. El parser extrae título, artista y acordes automáticamente.</p>' +
       '<textarea id="pasteArea" style="min-height:150px;font-family:inherit;font-size:13px" placeholder="Pegá el texto de la página aquí..."></textarea>' +
       '<div class="btn-row"><button class="btn-primary" onclick="doParse()">✦ Extraer datos</button></div>' +
       '<div id="parseStatus"></div>' +
     '</div>' +
     '<div class="iblock' + (importTab==='ai'?' show':'') + '" id="iblock-ai">' +
-      '<p class="hint">La clave se usa <strong>una sola vez</strong> y no se guarda en ningún lugar.<br>Solo <strong>Anthropic</strong> puede obtener la canción desde la URL directamente. Los demás necesitan que también pegues el texto.</p>' +
+      '<p class="hint">La clave se usa <strong>una sola vez</strong> y no se guarda en ningún lugar. Solo Anthropic puede obtener la canción directo desde la URL; los demás necesitan el texto de la página.</p>' +
       '<span class="flabel">Proveedor</span>' +
       '<select id="aiProv" onchange="updateAiUI()">' +
         '<option value="anthropic">Anthropic (Claude) — recomendado</option>' +
@@ -622,162 +776,232 @@ function renderAdd() {
       '<span class="flabel">URL de la canción</span>' +
       '<input type="url" id="aiUrl" placeholder="https://www.cifraclub.com/artista/cancion/" />' +
       '<div id="aiProvHint"></div>' +
-      '<div id="aiPasteWrap" style="display:none"><span class="flabel">Texto de la página</span>' +
-        '<textarea id="aiPasteText" style="min-height:130px;font-family:inherit;font-size:13px" placeholder="Pegá el texto de la página..."></textarea></div>' +
+      '<div id="aiPasteWrap" style="display:none">' +
+        '<span class="flabel">Texto de la página</span>' +
+        '<textarea id="aiPasteText" style="min-height:130px;font-family:inherit;font-size:13px" placeholder="Pegá el texto para que la IA lo procese..."></textarea>' +
+      '</div>' +
       '<div class="btn-row"><button class="btn-primary" id="aiBtn" onclick="doAiImport()">Procesar con IA</button></div>' +
       '<div id="aiStatus"></div>' +
     '</div></div>' +
     '<div class="section"><h3>✍ Datos de la canción</h3>' +
       '<span class="flabel">Artista</span><input type="text" id="fArtist" placeholder="Nombre del artista" />' +
       '<span class="flabel">Título</span><input type="text" id="fTitle" placeholder="Título de la canción" />' +
-      '<span class="flabel">Letras y acordes (versión Principal)</span>' +
+      '<span class="flabel">Letras y acordes</span>' +
+      '<p class="hint" style="margin-bottom:8px">Tip: si una línea de acordes no se detecta automáticamente, agregá <strong>!!</strong> al inicio de esa línea para forzarlo. El <strong>!!</strong> no se muestra al visualizar.</p>' +
       '<textarea id="fContent" placeholder="Pegá o escribí el contenido aquí..."></textarea>' +
       '<div class="btn-row">' +
         '<button class="btn-primary" onclick="doSave()">Guardar canción</button>' +
         '<button class="btn-secondary" onclick="goHome()">Cancelar</button>' +
-      '</div></div>';
+      '</div>' +
+    '</div>';
   updateAiUI();
 }
 
-// ── RENDER: EDIT ───────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════
+// RENDER: EDIT
+// ═══════════════════════════════════════════════════════════════
 function renderEdit(id) {
-  const s = songs.find(function(x) { return x.id === id; });
-  if (!s) { goHome(); return; }
-  // Deep copy versions for editing
-  editVersions = s.versions.map(function(v) { return { name: v.name, content: v.content }; });
-  editVerIdx = 0;
+  const s = songs.find(x => x.id === id); if (!s) { goHome(); return; }
+  editVersions   = JSON.parse(JSON.stringify(getVersions(s)));
+  editVersionIdx = 0;
   document.getElementById('view').innerHTML =
     '<button class="back" onclick="go(\'song\',\'' + s.id + '\')">← Volver</button>' +
     '<div class="pgtitle">Editar canción</div>' +
     '<div class="section">' +
       '<span class="flabel">Artista</span><input type="text" id="fArtist" value="' + esc(s.artist) + '" />' +
       '<span class="flabel">Título</span><input type="text" id="fTitle" value="' + esc(s.title) + '" />' +
-    '</div>' +
-    '<div class="section" id="verSection">' +
-      buildVerTabsHTML(s.id) +
-    '</div>' +
-    '<div class="btn-row" style="padding:0 0 20px 0">' +
-      '<button class="btn-primary" onclick="doUpdate(\'' + s.id + '\')">Guardar cambios</button>' +
-      '<button class="btn-secondary" onclick="go(\'song\',\'' + s.id + '\')">Cancelar</button>' +
+      '<span class="flabel" style="margin-top:18px">Versiones</span>' +
+      '<div id="verTabsRow" class="ver-tabs-row"></div>' +
+      '<div id="verMeta"></div>' +
+      '<span class="flabel">Letras y acordes</span>' +
+      '<p class="hint" style="margin-bottom:8px">Usá <strong>!!</strong> al inicio de una línea para forzarla a mostrarse como acordes si la detección automática falla.</p>' +
+      '<textarea id="fContent"></textarea>' +
+      '<div class="btn-row">' +
+        '<button class="btn-primary" onclick="doUpdate(\'' + s.id + '\')">Guardar cambios</button>' +
+        '<button class="btn-secondary" onclick="go(\'song\',\'' + s.id + '\')">Cancelar</button>' +
+      '</div>' +
     '</div>';
+  renderEditTabs(); loadEditVersion(0);
 }
 
-function buildVerTabsHTML(songId) {
-  const MAX = 3;
-  let html = '<h3>📋 Versiones</h3>';
-  // Tabs row
-  html += '<div class="ver-tabs" id="verTabs">';
-  editVersions.forEach(function(v, i) {
-    html += '<button class="ver-tab' + (i === editVerIdx ? ' active' : '') + '" onclick="switchVerTab(\'' + songId + '\',' + i + ')">' +
-      esc(v.name || ('Versión ' + (i+1))) +
-      (i > 0 ? ' <span class="ver-tab-del" onclick="deleteVerTab(event,\'' + songId + '\',' + i + ')" title="Eliminar versión">×</span>' : '') +
-    '</button>';
-  });
-  if (editVersions.length < MAX) {
-    html += '<button class="ver-tab ver-tab-add" onclick="addVerTab(\'' + songId + '\')">+ Nueva</button>';
-  }
-  html += '</div>';
-  // Active version content
-  const v = editVersions[editVerIdx];
-  if (editVerIdx > 0) {
-    html += '<div class="ver-name-row">' +
-      '<span class="flabel" style="margin:0;white-space:nowrap">Nombre:</span>' +
-      '<input type="text" id="verName" maxlength="30" value="' + esc(v.name) + '" oninput="editVersions[editVerIdx].name=this.value" placeholder="Nombre de esta versión" />' +
-    '</div>';
+function renderEditTabs() {
+  const row = document.getElementById('verTabsRow'); if (!row) return;
+  row.innerHTML =
+    editVersions.map((v, i) =>
+      '<button class="ver-tab' + (i === editVersionIdx ? ' active' : '') + '" onclick="switchEditVersion(' + i + ')">' + esc(v.name) + '</button>'
+    ).join('') +
+    (editVersions.length < 3 ? '<button class="ver-add-btn" onclick="addVersion()">+ Versión</button>' : '');
+}
+
+function loadEditVersion(idx) {
+  editVersionIdx = idx;
+  const v  = editVersions[idx];
+  const ta = document.getElementById('fContent');
+  if (ta) ta.value = v.content;
+  const meta = document.getElementById('verMeta');
+  if (idx === 0) {
+    meta.innerHTML = ''; meta.style.display = 'none';
   } else {
-    html += '<div class="ver-info">Principal — nombre fijo</div>';
+    meta.style.display = 'flex'; meta.className = 'ver-meta';
+    meta.innerHTML =
+      '<div><span class="flabel" style="margin-top:0">Nombre de esta versión</span>' +
+      '<input type="text" id="verName" value="' + esc(v.name) + '" /></div>' +
+      '<button class="btn-sm-danger" onclick="deleteVersion(' + idx + ')">Eliminar versión</button>';
   }
-  html += '<textarea id="verContent" placeholder="Letras y acordes...">' + esc(v.content) + '</textarea>';
-  if (editVerIdx > 0) {
-    html += '<button class="btn-secondary" style="margin-top:8px;font-size:12px" onclick="copyFromPrincipal()">↓ Copiar contenido de Principal como punto de partida</button>';
-  }
-  return html;
 }
-
-function switchVerTab(songId, idx) {
-  // Save current textarea before switching
-  const ta = document.getElementById('verContent');
-  if (ta) editVersions[editVerIdx].content = ta.value;
-  const vn = document.getElementById('verName');
-  if (vn) editVersions[editVerIdx].name = vn.value;
-  editVerIdx = idx;
-  document.getElementById('verSection').innerHTML = buildVerTabsHTML(songId);
+function switchEditVersion(idx) {
+  saveCurrentEditState(); editVersionIdx = idx; renderEditTabs(); loadEditVersion(idx);
 }
-
-function addVerTab(songId) {
-  const ta = document.getElementById('verContent');
-  if (ta) editVersions[editVerIdx].content = ta.value;
-  if (editVersions.length >= 3) return;
-  editVersions.push({ name: 'Versión ' + (editVersions.length + 1), content: '' });
-  editVerIdx = editVersions.length - 1;
-  document.getElementById('verSection').innerHTML = buildVerTabsHTML(songId);
+function saveCurrentEditState() {
+  const ta = document.getElementById('fContent'); if (ta) editVersions[editVersionIdx].content = ta.value;
+  if (editVersionIdx > 0) { const ni = document.getElementById('verName'); if (ni) editVersions[editVersionIdx].name = ni.value.trim() || ('Versión ' + (editVersionIdx + 1)); }
 }
-
-function deleteVerTab(event, songId, idx) {
-  event.stopPropagation();
-  if (idx === 0) return;
+function addVersion() {
+  saveCurrentEditState();
+  const idx = editVersions.length;
+  editVersions.push({ name: 'Versión ' + (idx + 1), content: '' });
+  editVersionIdx = idx; renderEditTabs(); loadEditVersion(idx);
+}
+function deleteVersion(idx) {
+  if (editVersions.length <= 1) { alert('La canción debe tener al menos una versión.'); return; }
   if (!confirm('¿Eliminar la versión "' + editVersions[idx].name + '"?')) return;
   editVersions.splice(idx, 1);
-  if (editVerIdx >= editVersions.length) editVerIdx = editVersions.length - 1;
-  document.getElementById('verSection').innerHTML = buildVerTabsHTML(songId);
+  editVersionIdx = Math.max(0, Math.min(editVersionIdx, editVersions.length - 1));
+  renderEditTabs(); loadEditVersion(editVersionIdx);
 }
 
-function copyFromPrincipal() {
-  const ta = document.getElementById('verContent');
-  if (ta && editVersions[0]) {
-    ta.value = editVersions[0].content;
-    editVersions[editVerIdx].content = ta.value;
-  }
-}
-
-// ── RENDER: DELETE ─────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════
+// RENDER: DELETE
+// ═══════════════════════════════════════════════════════════════
 function renderDel(id) {
-  const s = songs.find(function(x) { return x.id === id; });
-  if (!s) { goHome(); return; }
+  const s = songs.find(x => x.id === id); if (!s) { goHome(); return; }
   document.getElementById('view').innerHTML =
     '<button class="back" onclick="go(\'song\',\'' + s.id + '\')">← Volver</button>' +
     '<div class="confirm-wrap"><div class="confirm-box">' +
       '<h3>🗑 Eliminar canción</h3>' +
-      '<p>¿Eliminar <strong>' + esc(s.title) + '</strong> de ' + esc(s.artist) + '? Esta acción no se puede deshacer.</p>' +
+      '<p>¿Eliminar <strong>' + esc(s.title) + '</strong> de ' + esc(s.artist) + '? No se puede deshacer.</p>' +
       '<div class="btn-row">' +
-        '<button class="btn-primary" style="background:#b03030" onclick="doDelete(\'' + id + '\')">Eliminar</button>' +
-        '<button class="btn-secondary" onclick="go(\'song\',\'' + id + '\')">Cancelar</button>' +
-      '</div></div></div>';
+        '<button class="btn-primary" style="background:#b03030" onclick="doDelete(\'' + s.id + '\')">Eliminar</button>' +
+        '<button class="btn-secondary" onclick="go(\'song\',\'' + s.id + '\')">Cancelar</button>' +
+      '</div>' +
+    '</div></div>';
 }
-
 function emptyHTML() {
   return '<div class="empty"><div class="empty-ic">🎵</div><h3>Aún no hay canciones</h3><p>Agregá la primera con el botón de arriba, o importá un backup desde Ajustes.</p></div>';
 }
 
-// ── IMPORT HELPERS ─────────────────────────────────────────────────────────
-function switchItab(t) {
-  importTab = t;
-  ['paste','ai'].forEach(function(k) { document.getElementById('iblock-'+k).className = 'iblock' + (k===t?' show':''); });
-  document.querySelectorAll('.itab').forEach(function(b,i) { b.className = 'itab' + (['paste','ai'][i]===t?' active':''); });
+// ═══════════════════════════════════════════════════════════════
+// CRUD
+// ═══════════════════════════════════════════════════════════════
+function doSave() {
+  const a = document.getElementById('fArtist').value.trim();
+  const t = document.getElementById('fTitle').value.trim();
+  const c = document.getElementById('fContent').value.trim();
+  if (!a || !t || !c) { alert('Completá todos los campos.'); return; }
+  const s = { id: Date.now().toString(), artist: a, title: t, versions: [{ name: 'Principal', content: c }] };
+  songs.unshift(s); saveData(); curVersionIdx = 0; fromView = 'artists'; go('song', s.id);
 }
-function updateAiUI() {
-  const p = document.getElementById('aiProv'); if (!p) return;
-  const isA = p.value === 'anthropic';
-  document.getElementById('aiProvHint').innerHTML = isA
-    ? '<div class="status st-info" style="margin-top:8px">Puede obtener la canción directamente desde la URL.</div>'
-    : '<div class="status st-info" style="margin-top:8px">No puede navegar URLs. Pegá el texto de la página abajo.</div>';
-  document.getElementById('aiPasteWrap').style.display = isA ? 'none' : 'block';
+function doUpdate(id) {
+  const a = document.getElementById('fArtist').value.trim();
+  const t = document.getElementById('fTitle').value.trim();
+  if (!a || !t) { alert('Completá artista y título.'); return; }
+  saveCurrentEditState();
+  if (editVersions.every(v => !v.content.trim())) { alert('Al menos una versión debe tener contenido.'); return; }
+  const i = songs.findIndex(s => s.id === id);
+  if (i >= 0) songs[i] = { ...songs[i], artist: a, title: t, versions: editVersions };
+  saveData(); curVersionIdx = 0; go('song', id);
+}
+function doDelete(id) { songs = songs.filter(s => s.id !== id); saveData(); goHome(); }
+
+// ═══════════════════════════════════════════════════════════════
+// IMPORT: SMART PASTE PARSER
+// ═══════════════════════════════════════════════════════════════
+function parsePageText(raw) {
+  const lines = raw.split('\n').map(l => l.trim());
+  let title = '', artist = '', contentStart = -1;
+  for (let i = 0; i < lines.length; i++) { if (S_RE.test(lines[i])) { contentStart = i; break; } }
+  const before = lines.slice(0, contentStart > 0 ? contentStart : 15);
+  for (const l of before) {
+    if (l.startsWith('# ') && !title)  title  = l.replace(/^# /, '').replace(/\[([^\]]+)\]\(.*?\)/g, '$1').replace(/\s*\(acordes.*\)/i, '').trim();
+    if (l.startsWith('## ') && !artist) artist = l.replace(/^## /, '').replace(/\[([^\]]+)\]\(.*?\)/g, '$1').trim();
+  }
+  if (!title || !artist) {
+    const cands = before.filter(l => l.length > 1 && l.length < 80 && !l.includes('://') && !l.startsWith('http') && !l.includes('►') && !l.includes('|') && !/^\d+$/.test(l) && !/^(Suscr|Iniciar|Buscar|Listas|Más|Login|Sign|Home|Página)/i.test(l));
+    if (!title && cands[0])  title  = cands[0].replace(/\s*[\(-–].*$/, '').trim();
+    if (!artist && cands[1]) artist = cands[1].trim();
+  }
+  let content = '';
+  if (contentStart >= 0) {
+    const END = ['composición de','visualizaç','visualizaciones','colaboración y revisión','simplificar acordes','desplazar','modo teatro','cerrar reproductor','otros videos'];
+    const block = [];
+    for (let i = contentStart; i < lines.length; i++) {
+      if (END.some(m => lines[i].toLowerCase().includes(m))) break;
+      block.push(lines[i]);
+    }
+    content = block.join('\n').trim();
+  }
+  return { title, artist, content };
 }
 function doParse() {
   const raw = document.getElementById('pasteArea').value;
-  const st = document.getElementById('parseStatus');
-  if (!raw.trim()) { st.innerHTML = '<div class="status st-err">Pegá el texto de la página primero.</div>'; return; }
-  const parsed = parsePageText(raw);
-  document.getElementById('fArtist').value  = parsed.artist;
-  document.getElementById('fTitle').value   = parsed.title;
-  document.getElementById('fContent').value = parsed.content;
-  st.innerHTML = parsed.content
+  const st  = document.getElementById('parseStatus');
+  if (!raw.trim()) { st.innerHTML = '<div class="status st-err" style="margin-top:8px">Pegá el texto de la página primero.</div>'; return; }
+  const { title, artist, content } = parsePageText(raw);
+  document.getElementById('fArtist').value  = artist;
+  document.getElementById('fTitle').value   = title;
+  document.getElementById('fContent').value = content;
+  st.innerHTML = content
     ? '<div class="status st-ok" style="margin-top:8px">✓ Datos extraídos. Revisá y completá lo que falte.</div>'
     : '<div class="status st-info" style="margin-top:8px">No se encontró bloque de acordes. Completá manualmente.</div>';
 }
+function switchItab(t) {
+  importTab = t;
+  ['paste','ai'].forEach(k => { document.getElementById('iblock-' + k).className = 'iblock' + (k === t ? ' show' : ''); });
+  document.querySelectorAll('.itab').forEach((b, i) => b.className = 'itab' + (['paste','ai'][i] === t ? ' active' : ''));
+}
+function updateAiUI() {
+  const p = document.getElementById('aiProv'); if (!p) return;
+  const isAnthro = p.value === 'anthropic';
+  document.getElementById('aiProvHint').innerHTML = isAnthro
+    ? '<div class="status st-info" style="margin-top:8px">Puede obtener la canción directamente desde la URL.</div>'
+    : '<div class="status st-info" style="margin-top:8px">Este modelo no navega URLs. Pegá el texto de la página abajo.</div>';
+  document.getElementById('aiPasteWrap').style.display = isAnthro ? 'none' : 'block';
+}
+
+// ═══════════════════════════════════════════════════════════════
+// AI IMPORT — one-time key, never stored anywhere
+// ═══════════════════════════════════════════════════════════════
+async function callAI(provider, apiKey, input, isUrl) {
+  const sys  = 'You are a music data extractor. Return ONLY a raw JSON object — no markdown, no backticks — with fields: "title", "artist", "content" (full chord+lyrics preserving [Section] headers, chords, tabs).';
+  const user = isUrl ? 'Fetch this URL and extract the song as JSON: ' + input : 'Extract the song from this text and return as JSON:\n\n' + input.slice(0, 7000);
+  let resText = '';
+  if (provider === 'anthropic') {
+    const body = { model: 'claude-sonnet-4-20250514', max_tokens: 4000, system: sys, messages: [{ role: 'user', content: user }] };
+    if (isUrl) body.tools = [{ type: 'web_search_20250305', name: 'web_search' }];
+    const d = await (await fetch('https://api.anthropic.com/v1/messages', { method: 'POST', headers: { 'Content-Type': 'application/json', 'x-api-key': apiKey, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' }, body: JSON.stringify(body) })).json();
+    if (d.error) throw new Error(d.error.message);
+    resText = (d.content || []).filter(b => b.type === 'text').map(b => b.text).join('');
+  } else if (provider === 'openai') {
+    const d = await (await fetch('https://api.openai.com/v1/chat/completions', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + apiKey }, body: JSON.stringify({ model: 'gpt-4o', messages: [{ role: 'system', content: sys }, { role: 'user', content: user }] }) })).json();
+    if (d.error) throw new Error(d.error.message);
+    resText = d.choices?.[0]?.message?.content || '';
+  } else if (provider === 'google') {
+    const d = await (await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + apiKey, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ contents: [{ parts: [{ text: sys + '\n\n' + user }] }] }) })).json();
+    if (d.error) throw new Error(d.error.message);
+    resText = d.candidates?.[0]?.content?.parts?.[0]?.text || '';
+  } else if (provider === 'deepseek') {
+    const d = await (await fetch('https://api.deepseek.com/v1/chat/completions', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + apiKey }, body: JSON.stringify({ model: 'deepseek-chat', messages: [{ role: 'system', content: sys }, { role: 'user', content: user }] }) })).json();
+    if (d.error) throw new Error(d.error.message);
+    resText = d.choices?.[0]?.message?.content || '';
+  }
+  if (!resText) throw new Error('Respuesta vacía');
+  const m = resText.replace(/```json|```/g, '').trim().match(/\{[\s\S]*\}/);
+  if (!m) throw new Error('No se pudo parsear la respuesta');
+  return JSON.parse(m[0]);
+}
 async function doAiImport() {
   const provider = document.getElementById('aiProv').value;
-  const apiKey   = document.getElementById('aiKey').value.trim();
+  const apiKey   = document.getElementById('aiKey').value.trim();  // local only, never stored
   const url      = document.getElementById('aiUrl').value.trim();
   const pasted   = (document.getElementById('aiPasteText') || {}).value || '';
   if (!apiKey) { alert('Ingresá la API key primero.'); return; }
@@ -791,99 +1015,17 @@ async function doAiImport() {
     document.getElementById('fArtist').value  = song.artist  || '';
     document.getElementById('fTitle').value   = song.title   || '';
     document.getElementById('fContent').value = song.content || '';
-    st.innerHTML = '<div class="status st-ok">✓ Canción importada. Revisá y guardá.</div>';
+    st.innerHTML = '<div class="status st-ok">✓ Canción importada. Revisá los datos y guardá.</div>';
   } catch(e) {
     st.innerHTML = '<div class="status st-err">✗ Error: ' + esc(e.message) + '</div>';
   }
-  document.getElementById('aiKey').value = '';
+  document.getElementById('aiKey').value = '';  // wipe key after use
   btn.disabled = false; btn.textContent = 'Procesar con IA';
 }
 
-// ── SMART PASTE PARSER ─────────────────────────────────────────────────────
-function parsePageText(raw) {
-  const lines = raw.split('\n').map(function(l) { return l.trim(); });
-  var title = '', artist = '', contentStart = -1;
-  for (var i = 0; i < lines.length; i++) { if (S_RE.test(lines[i])) { contentStart = i; break; } }
-  const before = lines.slice(0, contentStart > 0 ? contentStart : 15);
-  for (var i = 0; i < before.length; i++) {
-    var l = before[i];
-    if (l.startsWith('# ') && !title)  title  = l.replace(/^# /, '').replace(/\[([^\]]+)\]\(.*?\)/g, '$1').replace(/\s*\(acordes.*\)/i, '').trim();
-    if (l.startsWith('## ') && !artist) artist = l.replace(/^## /, '').replace(/\[([^\]]+)\]\(.*?\)/g, '$1').trim();
-  }
-  if (!title || !artist) {
-    const cands = before.filter(function(l) { return l.length > 1 && l.length < 80 && !l.includes('://') && !l.includes('►') && !/^\d+$/.test(l) && !/^(Suscr|Iniciar|Buscar|Listas|Más|Login)/i.test(l); });
-    if (!title && cands[0])  title  = cands[0].replace(/\s*[\(-–].*$/, '').trim();
-    if (!artist && cands[1]) artist = cands[1].trim();
-  }
-  var content = '';
-  if (contentStart >= 0) {
-    const END = ['composición de','visualizaç','visualizaciones','colaboración y revisión','simplificar acordes','desplazar','modo teatro','cerrar reproductor'];
-    const block = [];
-    for (var i = contentStart; i < lines.length; i++) {
-      if (END.some(function(m) { return lines[i].toLowerCase().includes(m); })) break;
-      block.push(lines[i]);
-    }
-    content = block.join('\n').trim();
-  }
-  return { title: title, artist: artist, content: content };
-}
-
-// ── AI CALL (one-time key) ─────────────────────────────────────────────────
-async function callAI(provider, apiKey, inputText, isUrl) {
-  const sys = 'You are a music data extractor. Return ONLY a raw JSON object — no markdown, no backticks — with fields: "title", "artist", "content" (full chord+lyrics preserving [Section] headers, chords above lyrics, tab notation).';
-  const msg = isUrl ? 'Fetch this URL and extract the song as JSON: ' + inputText : 'Extract the song from this text and return as JSON:\n\n' + inputText.slice(0, 7000);
-  let resText = '';
-  if (provider === 'anthropic') {
-    const body = { model: 'claude-sonnet-4-20250514', max_tokens: 4000, system: sys, messages: [{role:'user',content:msg}] };
-    if (isUrl) body.tools = [{type:'web_search_20250305',name:'web_search'}];
-    const res = await fetch('https://api.anthropic.com/v1/messages', { method:'POST', headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'}, body:JSON.stringify(body) });
-    const d = await res.json(); if (d.error) throw new Error(d.error.message);
-    resText = (d.content||[]).filter(function(b){return b.type==='text';}).map(function(b){return b.text;}).join('');
-  } else if (provider === 'openai') {
-    const res = await fetch('https://api.openai.com/v1/chat/completions', { method:'POST', headers:{'Content-Type':'application/json','Authorization':'Bearer '+apiKey}, body:JSON.stringify({model:'gpt-4o',messages:[{role:'system',content:sys},{role:'user',content:msg}]}) });
-    const d = await res.json(); if (d.error) throw new Error(d.error.message);
-    resText = d.choices?.[0]?.message?.content || '';
-  } else if (provider === 'google') {
-    const res = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key='+apiKey, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({contents:[{parts:[{text:sys+'\n\n'+msg}]}]}) });
-    const d = await res.json(); if (d.error) throw new Error(d.error.message);
-    resText = d.candidates?.[0]?.content?.parts?.[0]?.text || '';
-  } else if (provider === 'deepseek') {
-    const res = await fetch('https://api.deepseek.com/v1/chat/completions', { method:'POST', headers:{'Content-Type':'application/json','Authorization':'Bearer '+apiKey}, body:JSON.stringify({model:'deepseek-chat',messages:[{role:'system',content:sys},{role:'user',content:msg}]}) });
-    const d = await res.json(); if (d.error) throw new Error(d.error.message);
-    resText = d.choices?.[0]?.message?.content || '';
-  }
-  if (!resText) throw new Error('Respuesta vacía');
-  const m = resText.replace(/```json|```/g,'').trim().match(/\{[\s\S]*\}/);
-  if (!m) throw new Error('No se pudo parsear la respuesta');
-  return JSON.parse(m[0]);
-}
-
-// ── CRUD ──────────────────────────────────────────────────────────────────
-function doSave() {
-  const a = document.getElementById('fArtist').value.trim();
-  const t = document.getElementById('fTitle').value.trim();
-  const c = document.getElementById('fContent').value.trim();
-  if (!a || !t || !c) { alert('Completá todos los campos.'); return; }
-  const s = { id: Date.now().toString(), artist: a, title: t, versions: [{ name: 'Principal', content: c }] };
-  songs.unshift(s); saveData(); fromView = 'artists'; go('song', s.id);
-}
-function doUpdate(id) {
-  const a = document.getElementById('fArtist').value.trim();
-  const t = document.getElementById('fTitle').value.trim();
-  // Save current textarea
-  const ta = document.getElementById('verContent');
-  if (ta) editVersions[editVerIdx].content = ta.value;
-  const vn = document.getElementById('verName');
-  if (vn) editVersions[editVerIdx].name = vn.value || ('Versión ' + (editVerIdx + 1));
-  if (!a || !t) { alert('El artista y título son obligatorios.'); return; }
-  if (!editVersions[0].content.trim()) { alert('La versión Principal no puede estar vacía.'); return; }
-  const i = songs.findIndex(function(s) { return s.id === id; });
-  if (i >= 0) songs[i] = Object.assign({}, songs[i], { artist: a, title: t, versions: editVersions });
-  saveData(); curVersionIdx = 0; go('song', id);
-}
-function doDelete(id) { songs = songs.filter(function(s) { return s.id !== id; }); saveData(); goHome(); }
-
-// ── AUTOSCROLL ────────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════
+// AUTOSCROLL
+// ═══════════════════════════════════════════════════════════════
 function toggleScroll(idx) {
   if (scrollIdx === idx) { stopScroll(); return; }
   stopScroll(); scrollIdx = idx;
@@ -893,34 +1035,40 @@ function toggleScroll(idx) {
     if (window.scrollY + window.innerHeight >= document.body.scrollHeight - 4) { stopScroll(); return; }
     scrollRaf = requestAnimationFrame(frame);
   }
-  scrollRaf = requestAnimationFrame(frame);
-  updateScrollUI();
+  scrollRaf = requestAnimationFrame(frame); updateScrollUI();
 }
 function stopScroll() {
   if (scrollRaf) { cancelAnimationFrame(scrollRaf); scrollRaf = null; }
   scrollIdx = -1; updateScrollUI();
 }
 function updateScrollUI() {
-  [0,1,2,3].forEach(function(i) { var b = document.getElementById('sp'+i); if (b) b.className = 'sp-btn' + (scrollIdx===i?' on':''); });
-  var sb = document.getElementById('spStop'); if (sb) sb.className = 'sp-btn sp-stop' + (scrollIdx===-1?' on':'');
+  SPEEDS.forEach((_, i) => { const b = document.getElementById('fspd' + i); if (b) b.className = 'spd' + (scrollIdx === i ? ' on' : ''); });
+  const sb = document.getElementById('fspdStop'); if (sb) sb.className = 'spd' + (scrollIdx === -1 ? ' on' : '');
 }
 
-// ── WAKE LOCK ────────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════
+// WAKE LOCK
+// ═══════════════════════════════════════════════════════════════
 async function toggleWake() { wakeOn ? releaseWake() : await requestWake(); updateWakeUI(); }
 async function requestWake() {
   if ('wakeLock' in navigator) {
-    try { wakeLock = await navigator.wakeLock.request('screen'); wakeOn = true; wakeLock.addEventListener('release', function() { wakeOn = false; updateWakeUI(); }); }
+    try { wakeLock = await navigator.wakeLock.request('screen'); wakeOn = true; wakeLock.addEventListener('release', () => { wakeOn = false; updateWakeUI(); }); }
     catch(e) { wakeOn = false; }
   } else { alert('Tu navegador no soporta Wake Lock. Activalo desde la configuración del sistema.'); }
 }
 function releaseWake() { if (wakeLock) { wakeLock.release(); wakeLock = null; } wakeOn = false; }
 function updateWakeUI() {
-  var b = document.getElementById('wakeBtn');
+  const b = document.getElementById('wakeBtn');
   if (b) { b.className = 'wake-btn' + (wakeOn ? ' on' : ''); b.innerHTML = wakeOn ? '☀ Pantalla activa: ON' : '☀ Mantener activa'; }
 }
 
-// ── INIT ──────────────────────────────────────────────────────────────────
-loadData(); setTab('a'); renderArtists();
+// ═══════════════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════════════
+initAuth();
+loadData();
+setTab('a');
+renderArtists();
 </script>
 </body>
 </html>
