@@ -6,167 +6,250 @@
 <title>Cancionero</title>
 <style>
 :root {
-  --bg:#111009;--bg2:#1a1712;--bg3:#221e18;--card:#1e1a14;
-  --border:#332d24;--border2:#4a4035;
-  --amber:#d4853a;--amber-h:rgba(212,133,58,.16);--amber-l:#e8a050;
-  --chord:#d4853a;--sec:#4eaac8;--tab:#5dab5d;
-  --text:#f0e6d3;--text2:#9a8a78;--text3:#5a4e42;
-  --r:10px;--r2:14px;
+  --bg:     #111009;
+  --bg2:    #1a1712;
+  --bg3:    #221e18;
+  --card:   #1e1a14;
+  --b1:     #332d24;
+  --b2:     #4a4035;
+  --amber:  #d4853a;
+  --amberh: rgba(212,133,58,.16);
+  --amberl: #e8a050;
+  --chord:  #d4853a;
+  --sec:    #4eaac8;
+  --tab:    #5dab5d;
+  --t1:     #f0e6d3;
+  --t2:     #9a8a78;
+  --t3:     #5a4e42;
+  --r:      10px;
+  --r2:     14px;
 }
-*{box-sizing:border-box;margin:0;padding:0;}
-body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,sans-serif;min-height:100vh;}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--t1); font-family: system-ui,-apple-system,sans-serif; min-height: 100vh; }
 
-/* TOPBAR */
-.topbar{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 24px;height:56px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:50;}
-.logo{font-size:16px;font-weight:600;color:var(--amber);cursor:pointer;display:flex;align-items:center;gap:7px;flex-shrink:0;}
-.logo svg{width:20px;height:20px;}
-.tabs{display:flex;gap:2px;background:var(--bg3);border-radius:var(--r);padding:3px;}
-.tab{background:none;border:none;border-radius:7px;padding:5px 14px;font-size:13px;cursor:pointer;color:var(--text2);font-family:inherit;transition:background .15s,color .15s;white-space:nowrap;}
-.tab.active{background:var(--card);color:var(--text);font-weight:600;}
-.topbar-right{margin-left:auto;display:flex;gap:8px;align-items:center;}
-.btn-icon{background:none;border:1px solid var(--border2);color:var(--text2);border-radius:var(--r);padding:5px 11px;font-size:12px;cursor:pointer;font-family:inherit;transition:border-color .15s,color .15s;white-space:nowrap;}
-.btn-icon:hover{border-color:var(--amber);color:var(--amber);}
-.btn-new{background:var(--amber);color:#fff;border:none;border-radius:var(--r);padding:6px 14px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;white-space:nowrap;}
-.btn-new:hover{background:var(--amber-l);}
+/* ── TOPBAR ── */
+.topbar { background: var(--bg2); border-bottom: 1px solid var(--b1); padding: 0 22px; height: 54px; display: flex; align-items: center; gap: 12px; position: sticky; top: 0; z-index: 50; }
+.logo { font-size: 15px; font-weight: 700; color: var(--amber); cursor: pointer; display: flex; align-items: center; gap: 7px; flex-shrink: 0; }
+.logo svg { width: 19px; height: 19px; }
+.tabs { display: flex; gap: 2px; background: var(--bg3); border-radius: var(--r); padding: 3px; }
+.tab { background: none; border: none; border-radius: 7px; padding: 5px 13px; font-size: 13px; cursor: pointer; color: var(--t2); font-family: inherit; transition: background .15s, color .15s; }
+.tab.active { background: var(--card); color: var(--t1); font-weight: 600; }
+.topbar-r { margin-left: auto; display: flex; gap: 8px; align-items: center; }
+.btn-ico { background: none; border: 1px solid var(--b2); color: var(--t2); border-radius: var(--r); padding: 5px 11px; font-size: 12px; cursor: pointer; font-family: inherit; transition: border-color .15s, color .15s; }
+.btn-ico:hover { border-color: var(--amber); color: var(--amber); }
+.btn-new { background: var(--amber); color: #fff; border: none; border-radius: var(--r); padding: 6px 14px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit; }
+.btn-new:hover { background: var(--amberl); }
 
-/* LAYOUT */
-.container{max-width:980px;margin:0 auto;padding:28px 20px 60px;}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px;}
+/* ── LAYOUT ── */
+.wrap { max-width: 980px; margin: 0 auto; padding: 26px 20px 60px; }
 
-/* CARDS */
-.artist-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r2);padding:18px 16px;cursor:pointer;transition:border-color .15s,transform .12s;}
-.artist-card:hover{border-color:var(--amber);transform:translateY(-1px);}
-.ac-bar{width:24px;height:2px;background:var(--amber);border-radius:1px;margin-bottom:10px;opacity:.7;}
-.ac-name{font-size:15px;font-weight:600;color:var(--text);margin-bottom:4px;}
-.ac-count{font-size:12px;color:var(--text3);}
-.song-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r2);padding:15px 16px;cursor:pointer;transition:border-color .15s,transform .12s;}
-.song-card:hover{border-color:var(--amber);transform:translateY(-1px);}
-.sc-artist{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--amber);margin-bottom:5px;}
-.sc-title{font-size:15px;font-weight:600;color:var(--text);line-height:1.3;}
-.sc-preview{margin-top:7px;font-family:monospace;font-size:10px;color:var(--text3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+/* ── GRID / CARDS ── */
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(205px, 1fr)); gap: 10px; }
+.artist-card { background: var(--card); border: 1px solid var(--b1); border-radius: var(--r2); padding: 17px 16px; cursor: pointer; transition: border-color .15s, transform .12s; }
+.artist-card:hover { border-color: var(--amber); transform: translateY(-1px); }
+.ac-bar { width: 22px; height: 2px; background: var(--amber); border-radius: 1px; margin-bottom: 10px; opacity: .7; }
+.ac-name { font-size: 15px; font-weight: 600; color: var(--t1); margin-bottom: 4px; }
+.ac-count { font-size: 12px; color: var(--t3); }
+.song-card { background: var(--card); border: 1px solid var(--b1); border-radius: var(--r2); padding: 14px 16px; cursor: pointer; transition: border-color .15s, transform .12s; }
+.song-card:hover { border-color: var(--amber); transform: translateY(-1px); }
+.sc-artist { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; color: var(--amber); margin-bottom: 5px; }
+.sc-title { font-size: 15px; font-weight: 600; color: var(--t1); line-height: 1.3; }
+.sc-preview { margin-top: 7px; font-family: monospace; font-size: 10px; color: var(--t3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-/* SEARCH / SORT */
-.search-wrap{position:relative;margin-bottom:16px;}
-.search-input{width:100%;padding:9px 12px 9px 34px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);color:var(--text);font-size:14px;outline:none;font-family:inherit;}
-.search-input::placeholder{color:var(--text3);}
-.search-input:focus{border-color:var(--amber);}
-.si{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--text3);font-size:13px;pointer-events:none;}
-.sort-bar{display:flex;align-items:center;gap:8px;margin-bottom:18px;flex-wrap:wrap;}
-.sort-label{font-size:12px;color:var(--text3);}
-.sort-btn{background:none;border:1px solid var(--border);border-radius:var(--r);padding:4px 12px;font-size:12px;cursor:pointer;color:var(--text2);font-family:inherit;transition:all .15s;}
-.sort-btn.active{background:var(--amber-h);border-color:var(--amber);color:var(--amber);font-weight:600;}
+/* ── SEARCH / SORT ── */
+.search-wrap { position: relative; margin-bottom: 14px; }
+.search-input { width: 100%; padding: 9px 12px 9px 34px; background: var(--bg2); border: 1px solid var(--b1); border-radius: var(--r); color: var(--t1); font-size: 14px; outline: none; font-family: inherit; }
+.search-input::placeholder { color: var(--t3); }
+.search-input:focus { border-color: var(--amber); }
+.si { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); color: var(--t3); font-size: 13px; pointer-events: none; }
+.sort-bar { display: flex; align-items: center; gap: 8px; margin-bottom: 18px; flex-wrap: wrap; }
+.sort-lbl { font-size: 12px; color: var(--t3); }
+.sort-btn { background: none; border: 1px solid var(--b1); border-radius: var(--r); padding: 4px 12px; font-size: 12px; cursor: pointer; color: var(--t2); font-family: inherit; transition: all .15s; }
+.sort-btn.active { background: var(--amberh); border-color: var(--amber); color: var(--amber); font-weight: 600; }
 
-/* ARTIST DETAIL */
-.artist-header{margin-bottom:18px;padding-bottom:16px;border-bottom:1px solid var(--border);}
-.artist-header-name{font-size:24px;font-weight:700;color:var(--text);}
+/* ── SONG VIEW ── */
+.back { background: none; border: 1px solid var(--b1); color: var(--t2); border-radius: var(--r); padding: 5px 12px; font-size: 12px; cursor: pointer; font-family: inherit; margin-bottom: 16px; transition: border-color .15s, color .15s; display: inline-block; }
+.back:hover { border-color: var(--amber); color: var(--amber); }
+.song-albl { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--amber); margin-bottom: 6px; }
+.song-title { font-size: clamp(21px, 4.5vw, 38px); font-weight: 700; color: var(--t1); line-height: 1.15; margin-bottom: 14px; }
+.artist-hdr { margin-bottom: 16px; padding-bottom: 14px; border-bottom: 1px solid var(--b1); }
+.artist-hdr-name { font-size: 22px; font-weight: 700; color: var(--t1); }
+.actions { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+.btn-edit { background: none; border: 1px solid var(--amber); color: var(--amber); border-radius: var(--r); padding: 5px 14px; font-size: 12px; cursor: pointer; font-family: inherit; transition: background .15s; }
+.btn-edit:hover { background: var(--amberh); }
+.btn-del { background: none; border: 1px solid #7a3030; color: #c04040; border-radius: var(--r); padding: 5px 14px; font-size: 12px; cursor: pointer; font-family: inherit; }
+.btn-del:hover { background: rgba(180,40,40,.1); }
 
-/* SONG VIEW */
-.back{background:none;border:1px solid var(--border);color:var(--text2);border-radius:var(--r);padding:5px 12px;font-size:12px;cursor:pointer;font-family:inherit;margin-bottom:16px;transition:border-color .15s,color .15s;}
-.back:hover{border-color:var(--amber);color:var(--amber);}
-.song-artist-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--amber);margin-bottom:6px;}
-.song-title-big{font-size:clamp(22px,4.5vw,38px);font-weight:700;color:var(--text);line-height:1.15;margin-bottom:14px;}
-.actions{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;}
-.btn-edit{background:none;border:1px solid var(--amber);color:var(--amber);border-radius:var(--r);padding:5px 14px;font-size:12px;cursor:pointer;font-family:inherit;}
-.btn-edit:hover{background:var(--amber-h);}
-.btn-del{background:none;border:1px solid #7a3030;color:#c04040;border-radius:var(--r);padding:5px 14px;font-size:12px;cursor:pointer;font-family:inherit;}
-.btn-del:hover{background:rgba(180,40,40,.1);}
+/* ── SONG TOP CONTROLS (wake + version) ── */
+.song-ctrl { background: var(--bg2); border: 1px solid var(--b1); border-radius: var(--r2); padding: 10px 14px; margin-bottom: 14px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.clbl { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .8px; color: var(--t3); white-space: nowrap; }
+.csep { width: 1px; height: 16px; background: var(--b1); flex-shrink: 0; }
+.cgrp { display: flex; align-items: center; gap: 7px; }
+.wake-btn { background: none; border: 1px solid var(--b1); border-radius: var(--r); padding: 4px 10px; font-size: 12px; cursor: pointer; color: var(--t2); font-family: inherit; transition: all .15s; }
+.wake-btn.on { background: var(--amberh); border-color: var(--amber); color: var(--amber); font-weight: 600; }
+.ver-sel { background: var(--bg); border: 1px solid var(--b1); border-radius: var(--r); padding: 4px 26px 4px 9px; font-size: 12px; color: var(--t1); font-family: inherit; cursor: pointer; outline: none; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%235a4e42' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 8px center; }
+.ver-sel:focus { border-color: var(--amber); }
+.ver-sel option { background: var(--bg2); }
 
-/* SONG CONTROLS */
-.song-controls{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:12px 16px;margin-bottom:16px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;}
-.ctrl-group{display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
-.ctrl-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--text3);white-space:nowrap;}
-.ctrl-sep{width:1px;height:18px;background:var(--border);flex-shrink:0;}
-.speed-btn{background:none;border:1px solid var(--border);border-radius:var(--r);padding:4px 10px;font-size:12px;cursor:pointer;color:var(--text2);font-family:inherit;transition:all .15s;}
-.speed-btn:hover{border-color:var(--amber);color:var(--amber);}
-.speed-btn.active{background:var(--amber);border-color:var(--amber);color:#fff;font-weight:600;}
-.wake-btn{background:none;border:1px solid var(--border);border-radius:var(--r);padding:4px 10px;font-size:12px;cursor:pointer;color:var(--text2);font-family:inherit;transition:all .15s;}
-.wake-btn.active{background:var(--amber-h);border-color:var(--amber);color:var(--amber);font-weight:600;}
+/* ── FIXED SCROLL PANEL ── */
+.scroll-panel {
+  position: fixed;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--bg2);
+  border: 1px solid var(--b2);
+  border-radius: var(--r2);
+  padding: 10px 7px;
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  z-index: 40;
+  align-items: stretch;
+  min-width: 68px;
+  box-shadow: 0 4px 20px rgba(0,0,0,.5);
+}
+.scroll-panel.vis { display: flex; }
+.spl { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .8px; color: var(--t3); text-align: center; margin-bottom: 2px; }
+.sp-sep { height: 1px; background: var(--b1); margin: 2px 0; }
+.sp-btn { background: none; border: 1px solid var(--b1); border-radius: 7px; padding: 7px 6px; font-size: 11px; cursor: pointer; color: var(--t2); font-family: inherit; transition: all .15s; text-align: center; white-space: nowrap; }
+.sp-btn:hover { border-color: var(--amber); color: var(--amber); }
+.sp-btn.on { background: var(--amber); border-color: var(--amber); color: #fff; font-weight: 600; }
+.sp-stop { color: var(--t3); font-size: 13px; }
+.sp-stop.on { background: var(--bg3); border-color: var(--b2); color: var(--t2); }
 
-/* CHORD BOX */
-.chord-box{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:24px;font-family:monospace;font-size:13.5px;line-height:1.85;white-space:pre;overflow-x:auto;}
-.lc{color:var(--chord);font-weight:600;}
-.ls{color:var(--sec);font-weight:700;}
-.lt{color:var(--tab);}
-.ll{color:var(--text);}
-.le{display:block;height:.45em;}
+@media (max-width: 640px) {
+  .scroll-panel {
+    right: 10px; top: auto; bottom: 16px;
+    transform: none;
+    flex-direction: row;
+    min-width: auto;
+    padding: 7px 9px;
+    gap: 6px;
+    align-items: center;
+  }
+  .spl { display: none; }
+  .sp-sep { display: none; }
+  .sp-btn { padding: 6px 8px; }
+}
 
-/* FORMS */
-.pgtitle{font-size:22px;font-weight:700;margin-bottom:20px;color:var(--text);}
-.card-section{background:var(--card);border:1px solid var(--border);border-radius:var(--r2);padding:20px;margin-bottom:14px;}
-.card-section h3{font-size:13px;font-weight:600;color:var(--text2);margin-bottom:14px;}
-.flabel{display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--text2);margin-bottom:5px;margin-top:12px;}
-.flabel:first-of-type{margin-top:0;}
-input[type=text],input[type=url],input[type=password],select{width:100%;padding:9px 11px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r);color:var(--text);font-size:14px;outline:none;font-family:inherit;}
-select{cursor:pointer;}
-select option{background:var(--bg2);}
-input:focus,select:focus{border-color:var(--amber);}
-textarea{width:100%;padding:11px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r);color:var(--text);font-size:13px;outline:none;font-family:monospace;min-height:380px;resize:vertical;line-height:1.75;}
-textarea:focus{border-color:var(--amber);}
+/* ── CHORD BOX ── */
+.chord-box {
+  background: var(--bg2); border: 1px solid var(--b1); border-radius: var(--r2);
+  padding: 20px 24px; font-family: monospace; font-size: 13.5px; overflow-x: auto;
+  /* right padding to avoid fixed panel overlap */
+  padding-right: 90px;
+}
+.cline { white-space: pre; display: block; line-height: 1.85; }
+.le { height: .5em; display: block; }
+.lc { color: var(--chord); font-weight: 600; }
+.ls-hdr { color: var(--sec); } /* used inside sec-hdr */
+.lt { color: var(--tab); }
+.ll { color: var(--t1); }
+/* Collapsible sections */
+.sec-wrap { margin: 2px 0; }
+.sec-hdr {
+  display: flex; align-items: center; gap: 6px;
+  cursor: pointer; user-select: none; padding: 3px 0;
+  border-radius: 5px; transition: background .12s;
+  line-height: 1.6;
+}
+.sec-hdr:hover { background: rgba(255,255,255,.04); }
+.sec-arr { color: var(--t3); font-size: 10px; flex-shrink: 0; width: 10px; }
+.sec-title { color: var(--sec); font-weight: 700; }
+.sec-body { display: block; }
+.sec-body.collapsed { display: none; }
+.sec-hint { font-size: 10px; color: var(--t3); margin-left: 16px; }
 
-/* IMPORT METHOD TABS */
-.method-tabs{display:flex;gap:0;margin-bottom:16px;border:1px solid var(--border);border-radius:var(--r);overflow:hidden;}
-.method-tab{flex:1;background:none;border:none;padding:9px 12px;font-size:13px;cursor:pointer;color:var(--text2);font-family:inherit;transition:background .15s,color .15s;text-align:center;}
-.method-tab:first-child{border-right:1px solid var(--border);}
-.method-tab.active{background:var(--amber-h);color:var(--amber);font-weight:600;}
-.method-panel{display:none;}
-.method-panel.active{display:block;}
-.url-row{display:flex;gap:8px;}
-.url-row input{flex:1;}
-.btn-fetch{background:var(--bg3);color:var(--text);border:1px solid var(--border2);border-radius:var(--r);padding:9px 14px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:inherit;transition:border-color .15s;}
-.btn-fetch:hover{border-color:var(--amber);color:var(--amber);}
-.btn-fetch:disabled{opacity:.5;cursor:not-allowed;}
-.btn-ai{background:var(--amber);color:#fff;border:none;border-radius:var(--r);padding:9px 14px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:inherit;}
-.btn-ai:disabled{opacity:.5;cursor:not-allowed;}
+/* ── FORMS ── */
+.pgtitle { font-size: 22px; font-weight: 700; margin-bottom: 20px; color: var(--t1); }
+.section { background: var(--card); border: 1px solid var(--b1); border-radius: var(--r2); padding: 20px; margin-bottom: 14px; }
+.section h3 { font-size: 13px; font-weight: 600; color: var(--t2); margin-bottom: 14px; }
+.flabel { display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .7px; color: var(--t2); margin-bottom: 5px; margin-top: 12px; }
+.flabel:first-of-type { margin-top: 0; }
+input[type=text], input[type=url], input[type=password], select {
+  width: 100%; padding: 9px 11px; background: var(--bg); border: 1px solid var(--b1); border-radius: var(--r); color: var(--t1); font-size: 14px; outline: none; font-family: inherit;
+}
+select { cursor: pointer; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%235a4e42' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; padding-right: 30px; }
+select option { background: var(--bg2); }
+input:focus, select:focus, textarea:focus { border-color: var(--amber); }
+textarea { width: 100%; padding: 11px; background: var(--bg); border: 1px solid var(--b1); border-radius: var(--r); color: var(--t1); font-size: 13px; outline: none; font-family: monospace; min-height: 320px; resize: vertical; line-height: 1.75; }
 
-/* STATUS */
-.status{padding:10px 13px;border-radius:var(--r);font-size:13px;margin-top:10px;border:1px solid;}
-.st-load{border-color:var(--amber);color:var(--amber);background:var(--amber-h);}
-.st-ok{border-color:#3a7a3a;color:#5cb85c;background:rgba(60,140,60,.08);}
-.st-err{border-color:#7a3030;color:#c04040;background:rgba(180,40,40,.08);}
-.st-info{border-color:var(--border2);color:var(--text2);background:var(--bg3);font-size:12px;line-height:1.5;}
+/* ── VERSION TABS (edit) ── */
+.ver-tabs { display: flex; gap: 3px; margin-bottom: 14px; flex-wrap: wrap; align-items: center; }
+.ver-tab { background: none; border: 1px solid var(--b1); border-radius: var(--r); padding: 5px 12px; font-size: 12px; cursor: pointer; color: var(--t2); font-family: inherit; transition: all .15s; display: flex; align-items: center; gap: 6px; }
+.ver-tab:hover { border-color: var(--b2); color: var(--t1); }
+.ver-tab.active { background: var(--amberh); border-color: var(--amber); color: var(--amber); font-weight: 600; }
+.ver-tab-del { background: none; border: none; color: inherit; cursor: pointer; font-size: 13px; padding: 0; line-height: 1; opacity: .7; }
+.ver-tab-del:hover { opacity: 1; }
+.ver-tab-add { border-style: dashed; }
+.ver-tab-add:hover { border-color: var(--amber); color: var(--amber); border-style: dashed; }
+.ver-name-row { display: flex; gap: 8px; align-items: center; margin-bottom: 10px; }
+.ver-name-row input { flex: 1; }
+.ver-info { font-size: 12px; color: var(--t3); margin-bottom: 10px; }
 
-/* BUTTONS */
-.btn-row{display:flex;gap:9px;flex-wrap:wrap;margin-top:16px;}
-.btn-save{background:var(--amber);color:#fff;border:none;border-radius:var(--r);padding:9px 20px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;}
-.btn-save:hover{background:var(--amber-l);}
-.btn-cancel{background:none;border:1px solid var(--border2);color:var(--text2);border-radius:var(--r);padding:9px 18px;font-size:14px;cursor:pointer;font-family:inherit;}
-.btn-cancel:hover{border-color:var(--text2);}
-.confirm-wrap{min-height:220px;background:rgba(0,0,0,.5);border-radius:var(--r2);display:flex;align-items:center;justify-content:center;margin-top:16px;}
-.confirm-box{background:var(--card);border:1px solid var(--border2);border-radius:var(--r2);padding:24px;max-width:360px;width:90%;}
-.confirm-box h3{font-size:16px;font-weight:700;margin-bottom:8px;}
-.confirm-box p{font-size:13px;color:var(--text2);margin-bottom:18px;line-height:1.5;}
-.empty{text-align:center;padding:60px 20px;color:var(--text2);}
-.empty-ic{font-size:48px;margin-bottom:14px;}
-.empty h3{font-size:16px;font-weight:600;color:var(--text);margin-bottom:6px;}
-.empty p{font-size:13px;}
+/* ── IMPORT TABS ── */
+.itabs { display: flex; gap: 2px; background: var(--bg3); border-radius: var(--r); padding: 3px; margin-bottom: 16px; }
+.itab { flex: 1; background: none; border: none; border-radius: 7px; padding: 7px 10px; font-size: 13px; cursor: pointer; color: var(--t2); font-family: inherit; transition: all .15s; text-align: center; }
+.itab.active { background: var(--card); color: var(--t1); font-weight: 600; }
+.iblock { display: none; }
+.iblock.show { display: block; }
+.hint { font-size: 12px; color: var(--t3); line-height: 1.6; margin-bottom: 12px; }
+.hint strong { color: var(--t2); }
 
-/* SETTINGS PANEL */
-.settings-panel{position:fixed;top:0;right:0;bottom:0;width:min(340px,100vw);background:var(--bg2);border-left:1px solid var(--border2);z-index:100;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .25s ease;}
-.settings-panel.open{transform:translateX(0);}
-.settings-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:99;display:none;}
-.settings-overlay.open{display:block;}
-.settings-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
-.settings-header h2{font-size:15px;font-weight:700;}
-.close-btn{background:none;border:none;color:var(--text2);font-size:20px;cursor:pointer;padding:2px 6px;line-height:1;}
-.settings-body{padding:20px;overflow-y:auto;flex:1;}
-.settings-section{margin-bottom:24px;}
-.settings-section h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text3);margin-bottom:12px;}
-.settings-hint{font-size:12px;color:var(--text3);line-height:1.6;margin-bottom:10px;}
-.btn-full{width:100%;background:none;border:1px solid var(--border2);color:var(--text);border-radius:var(--r);padding:9px 14px;font-size:13px;cursor:pointer;font-family:inherit;text-align:left;transition:border-color .15s;margin-bottom:8px;display:flex;align-items:center;gap:8px;}
-.btn-full:hover{border-color:var(--amber);color:var(--amber);}
-.btn-full-danger{border-color:#7a3030;color:#c04040;}
-.btn-full-danger:hover{border-color:#c04040;background:rgba(180,40,40,.08);color:#c04040;}
+/* ── BUTTONS ── */
+.btn-row { display: flex; gap: 9px; flex-wrap: wrap; margin-top: 16px; }
+.btn-primary { background: var(--amber); color: #fff; border: none; border-radius: var(--r); padding: 9px 20px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit; }
+.btn-primary:hover { background: var(--amberl); }
+.btn-primary:disabled { opacity: .5; cursor: not-allowed; }
+.btn-secondary { background: none; border: 1px solid var(--b2); color: var(--t2); border-radius: var(--r); padding: 9px 18px; font-size: 13px; cursor: pointer; font-family: inherit; }
+.btn-secondary:hover { border-color: var(--t2); }
+.btn-full { width: 100%; background: none; border: 1px solid var(--b2); color: var(--t1); border-radius: var(--r); padding: 9px 14px; font-size: 13px; cursor: pointer; font-family: inherit; text-align: left; transition: border-color .15s; margin-bottom: 8px; }
+.btn-full:hover { border-color: var(--amber); color: var(--amber); }
+.btn-danger { border-color: #7a3030; color: #c04040; }
+.btn-danger:hover { border-color: #c04040; background: rgba(180,40,40,.08); color: #c04040; }
 
-@media(max-width:520px){
-  .topbar{padding:0 12px;gap:8px;}
-  .container{padding:16px 12px 60px;}
-  .chord-box{font-size:12px;padding:14px;}
-  .tab{padding:5px 9px;}
+/* ── STATUS ── */
+.status { padding: 10px 13px; border-radius: var(--r); font-size: 13px; margin-top: 10px; border: 1px solid; line-height: 1.5; }
+.st-load { border-color: var(--amber); color: var(--amber); background: var(--amberh); }
+.st-ok   { border-color: #3a7a3a; color: #5cb85c; background: rgba(60,140,60,.08); }
+.st-err  { border-color: #7a3030; color: #c04040; background: rgba(180,40,40,.08); }
+.st-info { border-color: var(--b2); color: var(--t2); background: rgba(255,255,255,.03); }
+
+/* ── CONFIRM / EMPTY ── */
+.confirm-wrap { min-height: 200px; background: rgba(0,0,0,.5); border-radius: var(--r2); display: flex; align-items: center; justify-content: center; margin-top: 16px; }
+.confirm-box { background: var(--card); border: 1px solid var(--b2); border-radius: var(--r2); padding: 22px; max-width: 360px; width: 90%; }
+.confirm-box h3 { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+.confirm-box p { font-size: 13px; color: var(--t2); margin-bottom: 16px; line-height: 1.5; }
+.empty { text-align: center; padding: 60px 20px; color: var(--t2); }
+.empty-ic { font-size: 46px; margin-bottom: 12px; }
+.empty h3 { font-size: 16px; font-weight: 600; color: var(--t1); margin-bottom: 6px; }
+.empty p { font-size: 13px; }
+
+/* ── SETTINGS PANEL ── */
+.sp-ov { position: fixed; inset: 0; background: rgba(0,0,0,.55); z-index: 99; display: none; }
+.sp-ov.open { display: block; }
+.sp-panel { position: fixed; top: 0; right: 0; bottom: 0; width: min(320px, 100vw); background: var(--bg2); border-left: 1px solid var(--b2); z-index: 100; display: flex; flex-direction: column; transform: translateX(100%); transition: transform .22s ease; }
+.sp-panel.open { transform: translateX(0); }
+.sp-hd { padding: 15px 18px; border-bottom: 1px solid var(--b1); display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
+.sp-hd h2 { font-size: 14px; font-weight: 700; }
+.sp-x { background: none; border: none; color: var(--t2); font-size: 20px; cursor: pointer; padding: 2px 5px; line-height: 1; }
+.sp-body { padding: 18px; overflow-y: auto; flex: 1; }
+.sp-sec { margin-bottom: 22px; }
+.sp-sec h3 { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--t3); margin-bottom: 10px; }
+.sp-hint { font-size: 12px; color: var(--t3); line-height: 1.5; margin-bottom: 10px; }
+
+@media (max-width: 500px) {
+  .topbar { padding: 0 12px; }
+  .wrap { padding: 14px 12px 50px; }
+  .chord-box { font-size: 12px; padding: 14px 14px 14px 14px; padding-right: 14px; }
+  .tab { padding: 5px 9px; }
 }
 </style>
 </head>
 <body>
 
+<!-- Topbar -->
 <div class="topbar">
   <div class="logo" onclick="goHome()">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -178,33 +261,46 @@ textarea:focus{border-color:var(--amber);}
     <button class="tab" id="tab-a" onclick="goArtists()">Artistas</button>
     <button class="tab" id="tab-s" onclick="goAllSongs()">Canciones</button>
   </div>
-  <div class="topbar-right">
-    <button class="btn-icon" onclick="openSettings()">⚙ Ajustes</button>
+  <div class="topbar-r">
+    <button class="btn-ico" onclick="openSettings()">⚙ Ajustes</button>
     <button class="btn-new" onclick="go('add')">+ Agregar</button>
   </div>
 </div>
 
-<div class="container"><div id="view"></div></div>
+<!-- Main view -->
+<div class="wrap"><div id="view"></div></div>
 
-<div class="settings-overlay" id="settingsOverlay" onclick="closeSettings()"></div>
-<div class="settings-panel" id="settingsPanel">
-  <div class="settings-header">
+<!-- Fixed scroll panel (only visible in song view) -->
+<div class="scroll-panel" id="scrollPanel">
+  <div class="spl">Scroll</div>
+  <button class="sp-btn" id="sp0" onclick="toggleScroll(0)">Lenta</button>
+  <button class="sp-btn" id="sp1" onclick="toggleScroll(1)">Normal</button>
+  <button class="sp-btn" id="sp2" onclick="toggleScroll(2)">Rápida</button>
+  <button class="sp-btn" id="sp3" onclick="toggleScroll(3)">Muy r.</button>
+  <div class="sp-sep"></div>
+  <button class="sp-btn sp-stop" id="spStop" onclick="stopScroll()">⏹</button>
+</div>
+
+<!-- Settings panel -->
+<div class="sp-ov" id="spOv" onclick="closeSettings()"></div>
+<div class="sp-panel" id="spPanel">
+  <div class="sp-hd">
     <h2>⚙ Ajustes</h2>
-    <button class="close-btn" onclick="closeSettings()">×</button>
+    <button class="sp-x" onclick="closeSettings()">×</button>
   </div>
-  <div class="settings-body">
-    <div class="settings-section">
-      <h3>Importar / Exportar</h3>
-      <p class="settings-hint">Exportá tus canciones como backup. Importá para restaurarlas en otro dispositivo o después de actualizar el archivo.</p>
+  <div class="sp-body">
+    <div class="sp-sec">
+      <h3>Backup</h3>
+      <p class="sp-hint">Exportá tus canciones antes de actualizar el HTML. Importá para restaurar en cualquier momento o dispositivo.</p>
       <button class="btn-full" onclick="exportSongs()">⬇ Exportar canciones (.json)</button>
-      <button class="btn-full" onclick="document.getElementById('importFile').click()">⬆ Importar canciones (.json)</button>
-      <input type="file" id="importFile" accept=".json" style="display:none" onchange="importSongs(this)">
-      <div id="importMsg"></div>
+      <button class="btn-full" onclick="document.getElementById('impFile').click()">⬆ Importar canciones (.json)</button>
+      <input type="file" id="impFile" accept=".json" style="display:none" onchange="importSongs(this)">
+      <div id="impMsg"></div>
     </div>
-    <div class="settings-section">
+    <div class="sp-sec">
       <h3>Datos</h3>
-      <p class="settings-hint" id="songCount"></p>
-      <button class="btn-full btn-full-danger" onclick="confirmClearAll()">🗑 Borrar todas las canciones</button>
+      <p class="sp-hint" id="songCount"></p>
+      <button class="btn-full btn-danger" onclick="confirmClear()">🗑 Borrar todas las canciones</button>
     </div>
   </div>
 </div>
@@ -213,463 +309,614 @@ textarea:focus{border-color:var(--amber);}
 // ── STATE ──────────────────────────────────────────────────────────────────
 let songs = [];
 let curView = 'artists', sortMode = 'artist', searchQ = '', fromView = 'artists';
-
-// API key lives ONLY in JS memory — never touches any storage, cookie, or cache
-let sessionKey = '', sessionProvider = 'anthropic';
-
-let scrollRaf = null, scrollSpeedIdx = -1;
+let scrollRaf = null, scrollIdx = -1;
 const SPEEDS = [0.35, 0.9, 1.9, 3.8];
-const SPEED_NAMES = ['Lenta', 'Normal', 'Rápida', 'Muy rápida'];
-let wakeLock = null, wakeActive = false;
+let wakeLock = null, wakeOn = false;
+let curVersionIdx = 0;
+let sectionStates = {};   // { secIdx: collapsed(bool) }
+let importTab = 'paste';
+// Edit state
+let editVersions = [];
+let editVerIdx = 0;
 
-// ── STORAGE ────────────────────────────────────────────────────────────────
-function loadData() { try { songs = JSON.parse(localStorage.getItem('cnc_songs') || '[]'); } catch(e) { songs = []; } }
+// ── DATA & MIGRATION ────────────────────────────────────────────────────────
+// Songs are stored with versions:[{name,content}].
+// Old format had a top-level content string — migrated on load.
+function migrateSong(s) {
+  if (!s.versions) {
+    s.versions = [{ name: 'Principal', content: s.content || '' }];
+  }
+  if (!s.versions.length) s.versions = [{ name: 'Principal', content: '' }];
+  // Ensure first version is always called Principal
+  if (s.versions[0].name !== 'Principal') s.versions[0].name = 'Principal';
+  return s;
+}
+function loadData() {
+  try { songs = JSON.parse(localStorage.getItem('cnc_songs') || '[]').map(migrateSong); }
+  catch(e) { songs = []; }
+}
 function saveData() { localStorage.setItem('cnc_songs', JSON.stringify(songs)); }
+// Helper: get active content for a song
+function getSongContent(s, vidx) {
+  const v = (s.versions || [])[vidx] || s.versions[0];
+  return v ? v.content : '';
+}
 
 // ── EXPORT / IMPORT ────────────────────────────────────────────────────────
 function exportSongs() {
   if (!songs.length) { alert('No hay canciones para exportar.'); return; }
+  const blob = new Blob([JSON.stringify(songs, null, 2)], { type: 'application/json' });
   const a = document.createElement('a');
-  a.href = URL.createObjectURL(new Blob([JSON.stringify(songs, null, 2)], { type: 'application/json' }));
-  a.download = 'cancionero_' + new Date().toISOString().slice(0,10) + '.json';
+  a.href = URL.createObjectURL(blob);
+  a.download = 'cancionero_' + new Date().toISOString().slice(0, 10) + '.json';
   a.click(); URL.revokeObjectURL(a.href);
 }
 function importSongs(input) {
   const file = input.files[0]; if (!file) return;
   const reader = new FileReader();
-  reader.onload = e => {
-    const msg = document.getElementById('importMsg');
+  reader.onload = function(e) {
+    const msg = document.getElementById('impMsg');
     try {
-      const data = JSON.parse(e.target.result);
+      const data = JSON.parse(e.target.result).map(migrateSong);
       if (!Array.isArray(data)) throw new Error('Formato inválido');
-      const valid = data.filter(s => s.id && s.title && s.artist && s.content);
+      const valid = data.filter(s => s.id && s.title && s.artist && s.versions);
       if (!valid.length) throw new Error('No se encontraron canciones válidas');
-      const ids = new Set(songs.map(s => s.id));
-      const added = valid.filter(s => !ids.has(s.id));
-      const dupes = valid.length - added.length;
-      songs = [...added, ...songs]; saveData(); updateSongCount();
-      let txt = `✓ ${added.length} canción${added.length!==1?'es':''} importada${added.length!==1?'s':''}.`;
-      if (dupes) txt += ` (${dupes} ya existía${dupes!==1?'n':''}, omitida${dupes!==1?'s':''})`;
-      msg.innerHTML = `<div class="status st-ok" style="margin-top:8px">${txt}</div>`;
-      setTimeout(() => { if (msg) msg.innerHTML = ''; }, 4000);
+      const existingIds = new Set(songs.map(s => s.id));
+      const newOnes = valid.filter(s => !existingIds.has(s.id));
+      const dupes = valid.length - newOnes.length;
+      songs = [...newOnes, ...songs]; saveData(); updateCount();
+      let txt = '✓ ' + newOnes.length + ' canción' + (newOnes.length !== 1 ? 'es' : '') + ' importada' + (newOnes.length !== 1 ? 's' : '') + '.';
+      if (dupes) txt += ' (' + dupes + ' duplicada' + (dupes !== 1 ? 's' : '') + ', omitida' + (dupes !== 1 ? 's' : '') + ')';
+      msg.innerHTML = '<div class="status st-ok" style="margin-top:8px">' + txt + '</div>';
+      setTimeout(function() { msg.innerHTML = ''; }, 4000);
       goHome();
     } catch(err) {
-      msg.innerHTML = `<div class="status st-err" style="margin-top:8px">Error: ${esc(err.message)}</div>`;
+      msg.innerHTML = '<div class="status st-err" style="margin-top:8px">Error: ' + esc(err.message) + '</div>';
     }
     input.value = '';
   };
   reader.readAsText(file);
 }
-function updateSongCount() {
-  const el = document.getElementById('songCount');
-  if (el) el.textContent = `${songs.length} canción${songs.length!==1?'es':''} guardada${songs.length!==1?'s':''}.`;
-}
-function confirmClearAll() {
-  if (!songs.length) { alert('No hay canciones guardadas.'); return; }
-  if (confirm(`¿Borrar las ${songs.length} canciones? No se puede deshacer.\nTip: exportalas antes como backup.`)) {
-    songs = []; saveData(); updateSongCount(); closeSettings(); goHome();
+
+// ── SETTINGS ───────────────────────────────────────────────────────────────
+function openSettings() { document.getElementById('spPanel').classList.add('open'); document.getElementById('spOv').classList.add('open'); updateCount(); }
+function closeSettings() { document.getElementById('spPanel').classList.remove('open'); document.getElementById('spOv').classList.remove('open'); }
+function updateCount() { const el = document.getElementById('songCount'); if (el) el.textContent = songs.length + ' canción' + (songs.length !== 1 ? 'es' : '') + ' guardada' + (songs.length !== 1 ? 's' : '') + '.'; }
+function confirmClear() {
+  if (!songs.length) { alert('No hay canciones.'); return; }
+  if (confirm('¿Borrar las ' + songs.length + ' canciones?\n\nTip: exportalas primero.')) {
+    songs = []; saveData(); updateCount(); closeSettings(); goHome();
   }
 }
-function openSettings() {
-  document.getElementById('settingsPanel').classList.add('open');
-  document.getElementById('settingsOverlay').classList.add('open');
-  updateSongCount();
-}
-function closeSettings() {
-  document.getElementById('settingsPanel').classList.remove('open');
-  document.getElementById('settingsOverlay').classList.remove('open');
+
+// ── CHORD CLASSIFIER ──────────────────────────────────────────────────────
+const C_RE = /^([A-G][b#]?(m|maj|min|aug|dim|sus2|sus4|sus|add9|add|maj7|m7b5|m7|7|9|11|13|6|5|4|2)?(\d)?(\/[A-G][b#]?)?\s*)+$/;
+const S_RE = /^\[.+\]$/;
+const T_RE = /^[eEBGDAd]\|/;
+function classify(l) { const t = l.trim(); if (!t) return 'e'; if (S_RE.test(t)) return 's'; if (T_RE.test(t)) return 't'; if (C_RE.test(t)) return 'c'; return 'l'; }
+function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function chordPreview(c) { for (const l of c.split('\n')) { if (classify(l) === 'c') return esc(l.trim().slice(0, 44)); } return ''; }
+
+// ── CHORD RENDERER (with collapsible sections) ─────────────────────────────
+function renderLine(line) {
+  const k = classify(line);
+  if (k === 'e') return '<div class="le"></div>';
+  return '<div class="cline l' + k + '">' + esc(line) + '</div>';
 }
 
-// ── CHORD RENDERER ────────────────────────────────────────────────────────
-const CHORD_RE = /^([A-G][b#]?(m|maj|min|aug|dim|sus2|sus4|sus|add9|add|maj7|m7b5|m7|7|9|11|13|6|5|4|2)?(\d)?(\/[A-G][b#]?)?\s*)+$/;
-const SEC_RE = /^\[.+\]$/;
-const TAB_RE = /^[eEBGDAd]\|/;
-function classify(l) {
-  const t = l.trim();
-  if (!t) return 'e';
-  if (SEC_RE.test(t)) return 's';
-  if (TAB_RE.test(t)) return 't';
-  if (CHORD_RE.test(t)) return 'c';
-  return 'l';
+function buildSections(txt) {
+  const sections = [];
+  let cur = null;
+  for (const line of txt.split('\n')) {
+    if (classify(line) === 's') {
+      cur = { title: line.trim(), lines: [] };
+      sections.push(cur);
+    } else {
+      if (!cur) { cur = { title: null, lines: [] }; sections.push(cur); }
+      cur.lines.push(line);
+    }
+  }
+  return sections;
 }
-function renderChords(txt) {
-  const cls = { c:'lc', s:'ls', t:'lt', l:'ll' };
-  return txt.split('\n').map(l => {
-    const k = classify(l);
-    return k === 'e' ? '<span class="le"></span>\n' : `<span class="${cls[k]}">${esc(l)}</span>\n`;
+
+function renderSections(sections) {
+  let secIdx = 0;
+  return sections.map(function(sec) {
+    if (!sec.title) {
+      return sec.lines.map(renderLine).join('');
+    }
+    const idx = secIdx++;
+    const collapsed = !!sectionStates[idx];
+    const linesCount = sec.lines.filter(function(l) { return classify(l) !== 'e'; }).length;
+    return '<div class="sec-wrap">' +
+      '<div class="sec-hdr" id="sh-' + idx + '" onclick="toggleSection(' + idx + ')" data-t="' + esc(sec.title) + '">' +
+        '<span class="sec-arr" id="sa-' + idx + '">' + (collapsed ? '▶' : '▼') + '</span>' +
+        '<span class="sec-title">' + esc(sec.title) + '</span>' +
+        (collapsed ? '<span class="sec-hint">(' + linesCount + ' línea' + (linesCount !== 1 ? 's' : '') + ')</span>' : '') +
+      '</div>' +
+      '<div class="sec-body' + (collapsed ? ' collapsed' : '') + '" id="sb-' + idx + '">' +
+        sec.lines.map(renderLine).join('') +
+      '</div>' +
+    '</div>';
   }).join('');
 }
-function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-function chordPreview(c) {
-  for (const l of c.split('\n')) { if (classify(l)==='c') return esc(l.trim().slice(0,44)); }
-  return '';
+
+function toggleSection(idx) {
+  sectionStates[idx] = !sectionStates[idx];
+  const body = document.getElementById('sb-' + idx);
+  const arr  = document.getElementById('sa-' + idx);
+  const hdr  = document.getElementById('sh-' + idx);
+  if (!body || !arr || !hdr) return;
+  const collapsed = sectionStates[idx];
+  body.className = 'sec-body' + (collapsed ? ' collapsed' : '');
+  arr.textContent = collapsed ? '▶' : '▼';
+  // update hint
+  const existing = hdr.querySelector('.sec-hint');
+  if (existing) existing.remove();
+  if (collapsed) {
+    const linesCount = body.querySelectorAll('.cline').length;
+    const hint = document.createElement('span');
+    hint.className = 'sec-hint';
+    hint.textContent = '(' + linesCount + ' línea' + (linesCount !== 1 ? 's' : '') + ')';
+    hdr.appendChild(hint);
+  }
 }
 
 // ── NAVIGATION ────────────────────────────────────────────────────────────
 function setTab(t) {
-  document.getElementById('tab-a').className = 'tab'+(t==='a'?' active':'');
-  document.getElementById('tab-s').className = 'tab'+(t==='s'?' active':'');
+  document.getElementById('tab-a').className = 'tab' + (t === 'a' ? ' active' : '');
+  document.getElementById('tab-s').className = 'tab' + (t === 's' ? ' active' : '');
 }
-function goHome() { curView==='all' ? goAllSongs() : goArtists(); }
-function goArtists()  { stopScroll(); releaseWake(); curView='artists'; setTab('a'); renderArtists(); }
-function goAllSongs() { stopScroll(); releaseWake(); curView='all';     setTab('s'); renderAllSongs(); }
+function hideScrollPanel() { document.getElementById('scrollPanel').classList.remove('vis'); stopScroll(); }
+function showScrollPanel() { document.getElementById('scrollPanel').classList.add('vis'); }
+
+function goHome()     { curView === 'all' ? goAllSongs() : goArtists(); }
+function goArtists()  { hideScrollPanel(); releaseWake(); curView = 'artists'; setTab('a'); renderArtists(); }
+function goAllSongs() { hideScrollPanel(); releaseWake(); curView = 'all';     setTab('s'); renderAllSongs(); }
 function go(view, id) {
-  stopScroll(); releaseWake();
-  if (view==='song') fromView = curView;
+  if (view !== 'song') { hideScrollPanel(); releaseWake(); }
+  if (view === 'song') { fromView = curView; curVersionIdx = 0; sectionStates = {}; }
   curView = view;
-  if      (view==='add')           { setTab(''); renderAdd(); }
-  else if (view==='song')          renderSong(id);
-  else if (view==='edit')          renderEdit(id);
-  else if (view==='del')           renderDel(id);
-  else if (view==='artist-detail') renderArtistDetail(id);
+  if      (view === 'add')    { setTab(''); renderAdd(); }
+  else if (view === 'song')   renderSong(id);
+  else if (view === 'edit')   renderEdit(id);
+  else if (view === 'del')    renderDel(id);
+  else if (view === 'artist') renderArtistDetail(id);
 }
 
-// ── VIEWS ─────────────────────────────────────────────────────────────────
+// ── RENDER: HOME VIEWS ─────────────────────────────────────────────────────
 function groupByArtist() {
   const m = {};
-  songs.forEach(s => { const k=s.artist.trim(); if(!m[k]) m[k]=[]; m[k].push(s); });
+  songs.forEach(function(s) { const k = s.artist.trim(); if (!m[k]) m[k] = []; m[k].push(s); });
   return m;
 }
 function renderArtists() {
   const v = document.getElementById('view');
   if (!songs.length) { v.innerHTML = emptyHTML(); return; }
   const map = groupByArtist();
-  const artists = Object.keys(map).sort((a,b) => a.localeCompare(b,'es',{sensitivity:'base'}));
-  v.innerHTML = `<div class="grid">${artists.map(a=>`
-    <div class="artist-card" onclick="go('artist-detail','${esc(a)}')">
-      <div class="ac-bar"></div>
-      <div class="ac-name">${esc(a)}</div>
-      <div class="ac-count">${map[a].length} canción${map[a].length!==1?'es':''}</div>
-    </div>`).join('')}</div>`;
+  const artists = Object.keys(map).sort(function(a,b) { return a.localeCompare(b,'es',{sensitivity:'base'}); });
+  v.innerHTML = '<div class="grid">' + artists.map(function(a) {
+    return '<div class="artist-card" onclick="go(\'artist\',\'' + esc(a) + '\')">' +
+      '<div class="ac-bar"></div>' +
+      '<div class="ac-name">' + esc(a) + '</div>' +
+      '<div class="ac-count">' + map[a].length + ' canción' + (map[a].length !== 1 ? 'es' : '') + '</div>' +
+      '</div>';
+  }).join('') + '</div>';
 }
 function renderArtistDetail(artist) {
-  const list = songs.filter(s=>s.artist.trim()===artist).sort((a,b)=>a.title.localeCompare(b.title,'es',{sensitivity:'base'}));
-  document.getElementById('view').innerHTML = `
-    <button class="back" onclick="goArtists()">← Artistas</button>
-    <div class="artist-header"><div class="ac-bar"></div><div class="artist-header-name">${esc(artist)}</div></div>
-    <div class="grid">${list.map(s=>`
-      <div class="song-card" onclick="go('song','${s.id}')">
-        <div class="sc-title">${esc(s.title)}</div>
-        <div class="sc-preview">${chordPreview(s.content)}</div>
-      </div>`).join('')}</div>`;
+  const list = songs.filter(function(s) { return s.artist.trim() === artist; })
+    .sort(function(a,b) { return a.title.localeCompare(b.title,'es',{sensitivity:'base'}); });
+  document.getElementById('view').innerHTML =
+    '<button class="back" onclick="goArtists()">← Artistas</button>' +
+    '<div class="artist-hdr"><div class="ac-bar"></div><div class="artist-hdr-name">' + esc(artist) + '</div></div>' +
+    '<div class="grid">' + list.map(function(s) {
+      return '<div class="song-card" onclick="go(\'song\',\'' + s.id + '\')">' +
+        '<div class="sc-title">' + esc(s.title) + '</div>' +
+        '<div class="sc-preview">' + chordPreview(getSongContent(s, 0)) + '</div>' +
+        '</div>';
+    }).join('') + '</div>';
 }
 function renderAllSongs() {
-  let list = [...songs];
-  if (searchQ) list = list.filter(s =>
-    s.title.toLowerCase().includes(searchQ.toLowerCase()) ||
-    s.artist.toLowerCase().includes(searchQ.toLowerCase())
-  );
-  if (sortMode==='artist') list.sort((a,b)=>a.artist.localeCompare(b.artist,'es',{sensitivity:'base'})||a.title.localeCompare(b.title,'es',{sensitivity:'base'}));
-  else list.sort((a,b)=>a.title.localeCompare(b.title,'es',{sensitivity:'base'}));
-  document.getElementById('view').innerHTML = `
-    <div class="search-wrap">
-      <span class="si">🔍</span>
-      <input class="search-input" type="text" placeholder="Buscar por título o artista..." value="${esc(searchQ)}" oninput="searchQ=this.value;renderAllSongs()">
-    </div>
-    <div class="sort-bar">
-      <span class="sort-label">Ordenar:</span>
-      <button class="sort-btn${sortMode==='artist'?' active':''}" onclick="sortMode='artist';renderAllSongs()">Por artista</button>
-      <button class="sort-btn${sortMode==='title'?' active':''}" onclick="sortMode='title';renderAllSongs()">Por canción</button>
-    </div>
-    ${list.length===0
-      ? (songs.length===0 ? emptyHTML() : `<div class="empty"><div class="empty-ic">🔍</div><h3>Sin resultados</h3><p>Probá con otro término</p></div>`)
-      : `<div class="grid">${list.map(s=>`
-          <div class="song-card" onclick="go('song','${s.id}')">
-            <div class="sc-artist">${esc(s.artist)}</div>
-            <div class="sc-title">${esc(s.title)}</div>
-            <div class="sc-preview">${chordPreview(s.content)}</div>
-          </div>`).join('')}</div>`}`;
+  let list = songs.slice();
+  if (searchQ) list = list.filter(function(s) { return s.title.toLowerCase().includes(searchQ.toLowerCase()) || s.artist.toLowerCase().includes(searchQ.toLowerCase()); });
+  if (sortMode === 'artist') list.sort(function(a,b) { return a.artist.localeCompare(b.artist,'es',{sensitivity:'base'}) || a.title.localeCompare(b.title,'es',{sensitivity:'base'}); });
+  else list.sort(function(a,b) { return a.title.localeCompare(b.title,'es',{sensitivity:'base'}); });
+  document.getElementById('view').innerHTML =
+    '<div class="search-wrap"><span class="si">🔍</span>' +
+    '<input class="search-input" type="text" placeholder="Buscar..." value="' + esc(searchQ) + '" oninput="searchQ=this.value;renderAllSongs()" /></div>' +
+    '<div class="sort-bar"><span class="sort-lbl">Ordenar:</span>' +
+    '<button class="sort-btn' + (sortMode==='artist'?' active':'') + '" onclick="sortMode=\'artist\';renderAllSongs()">Por artista</button>' +
+    '<button class="sort-btn' + (sortMode==='title'?' active':'') + '" onclick="sortMode=\'title\';renderAllSongs()">Por canción</button></div>' +
+    (!list.length
+      ? (songs.length ? '<div class="empty"><div class="empty-ic">🔍</div><h3>Sin resultados</h3><p>Probá con otro término</p></div>' : emptyHTML())
+      : '<div class="grid">' + list.map(function(s) {
+          return '<div class="song-card" onclick="go(\'song\',\'' + s.id + '\')">' +
+            '<div class="sc-artist">' + esc(s.artist) + '</div>' +
+            '<div class="sc-title">' + esc(s.title) + '</div>' +
+            '<div class="sc-preview">' + chordPreview(getSongContent(s, 0)) + '</div>' +
+            '</div>';
+        }).join('') + '</div>'
+    );
 }
+
+// ── RENDER: SONG VIEW ──────────────────────────────────────────────────────
 function renderSong(id) {
-  const s = songs.find(x=>x.id===id); if (!s) { goHome(); return; }
-  const backFn  = fromView==='all' ? 'goAllSongs()' : fromView==='artist-detail' ? `go('artist-detail','${esc(s.artist.trim())}')` : 'goArtists()';
-  const backLbl = fromView==='all' ? 'Canciones'    : fromView==='artist-detail' ? esc(s.artist.trim()) : 'Artistas';
-  document.getElementById('view').innerHTML = `
-    <button class="back" onclick="${backFn}">← ${backLbl}</button>
-    <div class="song-artist-lbl">${esc(s.artist)}</div>
-    <div class="song-title-big">${esc(s.title)}</div>
-    <div class="actions">
-      <button class="btn-edit" onclick="go('edit','${s.id}')">✏ Editar</button>
-      <button class="btn-del" onclick="go('del','${s.id}')">🗑 Eliminar</button>
-    </div>
-    <div class="song-controls">
-      <div class="ctrl-group">
-        <span class="ctrl-label">Pantalla</span>
-        <button class="wake-btn" id="wakeBtn" onclick="toggleWake()">☀ Mantener activa</button>
-      </div>
-      <div class="ctrl-sep"></div>
-      <div class="ctrl-group">
-        <span class="ctrl-label">Autoscroll</span>
-        ${SPEEDS.map((_,i)=>`<button class="speed-btn" id="spd${i}" onclick="toggleScroll(${i})">${SPEED_NAMES[i]}</button>`).join('')}
-        <button class="speed-btn" id="spdStop" onclick="stopScroll()">⏹ Parar</button>
-      </div>
-    </div>
-    <div class="chord-box">${renderChords(s.content)}</div>`;
-  updateScrollUI(); updateWakeUI();
+  const s = songs.find(function(x) { return x.id === id; });
+  if (!s) { goHome(); return; }
+
+  const backFn  = fromView === 'all' ? 'goAllSongs()' : fromView === 'artist' ? "go('artist','" + esc(s.artist.trim()) + "')" : 'goArtists()';
+  const backLbl = fromView === 'all' ? 'Canciones' : fromView === 'artist' ? esc(s.artist.trim()) : 'Artistas';
+  const hasMultiVer = s.versions.length > 1;
+
+  // Version selector HTML
+  const verSel = hasMultiVer
+    ? '<div class="csep"></div><div class="cgrp"><span class="clbl">Versión</span>' +
+      '<select class="ver-sel" id="verSel" onchange="changeVersion(\'' + id + '\',parseInt(this.value))">' +
+      s.versions.map(function(v, i) { return '<option value="' + i + '"' + (i === curVersionIdx ? ' selected' : '') + '>' + esc(v.name) + '</option>'; }).join('') +
+      '</select></div>'
+    : '';
+
+  const content = getSongContent(s, curVersionIdx);
+  const sections = buildSections(content);
+
+  document.getElementById('view').innerHTML =
+    '<button class="back" onclick="' + backFn + '">← ' + backLbl + '</button>' +
+    '<div class="song-albl">' + esc(s.artist) + '</div>' +
+    '<div class="song-title">' + esc(s.title) + '</div>' +
+    '<div class="actions">' +
+      '<button class="btn-edit" onclick="go(\'edit\',\'' + s.id + '\')">✏ Editar</button>' +
+      '<button class="btn-del"  onclick="go(\'del\',\''  + s.id + '\')">🗑 Eliminar</button>' +
+    '</div>' +
+    '<div class="song-ctrl">' +
+      '<div class="cgrp">' +
+        '<span class="clbl">Pantalla</span>' +
+        '<button class="wake-btn" id="wakeBtn" onclick="toggleWake()">☀ Mantener activa</button>' +
+      '</div>' +
+      verSel +
+    '</div>' +
+    '<div class="chord-box" id="chordBox">' + renderSections(sections) + '</div>';
+
+  showScrollPanel();
+  updateScrollUI();
+  updateWakeUI();
 }
+
+function changeVersion(id, vidx) {
+  curVersionIdx = vidx;
+  sectionStates = {};
+  const s = songs.find(function(x) { return x.id === id; });
+  if (!s) return;
+  const content = getSongContent(s, curVersionIdx);
+  const sections = buildSections(content);
+  const box = document.getElementById('chordBox');
+  if (box) box.innerHTML = renderSections(sections);
+}
+
+// ── RENDER: ADD ────────────────────────────────────────────────────────────
 function renderAdd() {
-  document.getElementById('view').innerHTML = `
-    <button class="back" onclick="goHome()">← Volver</button>
-    <div class="pgtitle">Agregar canción</div>
-    <div class="card-section">
-      <h3>🔗 Importar desde URL</h3>
-      <div class="method-tabs">
-        <button class="method-tab active" id="mtab-auto" onclick="switchMethod('auto')">⚡ Automático (sin clave)</button>
-        <button class="method-tab"        id="mtab-ai"   onclick="switchMethod('ai')">🤖 Con IA</button>
-      </div>
-
-      <div class="method-panel active" id="mpanel-auto">
-        <div class="status st-info" style="margin-bottom:12px">
-          Funciona directamente con <strong>cifraclub.com</strong> y otros sitios de acordes. Sin ninguna clave ni registro.
-        </div>
-        <span class="flabel">URL</span>
-        <div class="url-row">
-          <input type="url" id="urlAutoIn" placeholder="https://www.cifraclub.com/artista/cancion/">
-          <button class="btn-fetch" id="autoBtn" onclick="doAutoFetch()">Extraer</button>
-        </div>
-        <div id="autoStatus"></div>
-      </div>
-
-      <div class="method-panel" id="mpanel-ai">
-        <div class="status st-info" style="margin-bottom:12px">
-          La clave <strong>no se guarda en ningún lado</strong> — vive solo en memoria hasta que cerrás la pestaña.
-        </div>
-        <span class="flabel">Proveedor</span>
-        <select id="aiProvider">
-          <option value="anthropic">Anthropic (Claude)</option>
-          <option value="openai">OpenAI (GPT)</option>
-          <option value="deepseek">DeepSeek</option>
-          <option value="google">Google (Gemini)</option>
-        </select>
-        <span class="flabel">API Key</span>
-        <input type="password" id="aiKeyIn" placeholder="Ingresá tu clave...">
-        <span class="flabel">URL</span>
-        <div class="url-row">
-          <input type="url" id="urlAiIn" placeholder="https://www.cifraclub.com/artista/cancion/">
-          <button class="btn-ai" id="aiBtn" onclick="doAiFetch()">Extraer con IA</button>
-        </div>
-        <div id="aiStatus"></div>
-      </div>
-    </div>
-
-    <div class="card-section">
-      <h3>✍ Datos de la canción</h3>
-      <span class="flabel">Artista</span>
-      <input type="text" id="fArtist" placeholder="Nombre del artista">
-      <span class="flabel">Título</span>
-      <input type="text" id="fTitle" placeholder="Título de la canción">
-      <span class="flabel">Letras y acordes</span>
-      <textarea id="fContent" placeholder="Pegá o escribí el contenido aquí..."></textarea>
-      <div class="btn-row">
-        <button class="btn-save" onclick="doSave()">Guardar canción</button>
-        <button class="btn-cancel" onclick="goHome()">Cancelar</button>
-      </div>
-    </div>`;
-  // Restore provider if used earlier this session
-  if (sessionProvider) { const sel = document.getElementById('aiProvider'); if (sel) sel.value = sessionProvider; }
+  document.getElementById('view').innerHTML =
+    '<button class="back" onclick="goHome()">← Volver</button>' +
+    '<div class="pgtitle">Agregar canción</div>' +
+    '<div class="section"><h3>📥 Importar</h3>' +
+    '<div class="itabs">' +
+      '<button class="itab' + (importTab==='paste'?' active':'') + '" onclick="switchItab(\'paste\')">Pegar texto</button>' +
+      '<button class="itab' + (importTab==='ai'   ?' active':'') + '" onclick="switchItab(\'ai\')">Usar IA</button>' +
+    '</div>' +
+    '<div class="iblock' + (importTab==='paste'?' show':'') + '" id="iblock-paste">' +
+      '<p class="hint">Abrí la página de acordes, seleccioná todo (<strong>Ctrl+A</strong>), copialo (<strong>Ctrl+C</strong>) y pegalo acá.</p>' +
+      '<textarea id="pasteArea" style="min-height:150px;font-family:inherit;font-size:13px" placeholder="Pegá el texto de la página aquí..."></textarea>' +
+      '<div class="btn-row"><button class="btn-primary" onclick="doParse()">✦ Extraer datos</button></div>' +
+      '<div id="parseStatus"></div>' +
+    '</div>' +
+    '<div class="iblock' + (importTab==='ai'?' show':'') + '" id="iblock-ai">' +
+      '<p class="hint">La clave se usa <strong>una sola vez</strong> y no se guarda en ningún lugar.<br>Solo <strong>Anthropic</strong> puede obtener la canción desde la URL directamente. Los demás necesitan que también pegues el texto.</p>' +
+      '<span class="flabel">Proveedor</span>' +
+      '<select id="aiProv" onchange="updateAiUI()">' +
+        '<option value="anthropic">Anthropic (Claude) — recomendado</option>' +
+        '<option value="openai">OpenAI (GPT-4o)</option>' +
+        '<option value="google">Google (Gemini)</option>' +
+        '<option value="deepseek">Deepseek</option>' +
+      '</select>' +
+      '<span class="flabel">API Key (solo para esta operación)</span>' +
+      '<input type="password" id="aiKey" placeholder="Pegá tu clave aquí..." autocomplete="off" />' +
+      '<span class="flabel">URL de la canción</span>' +
+      '<input type="url" id="aiUrl" placeholder="https://www.cifraclub.com/artista/cancion/" />' +
+      '<div id="aiProvHint"></div>' +
+      '<div id="aiPasteWrap" style="display:none"><span class="flabel">Texto de la página</span>' +
+        '<textarea id="aiPasteText" style="min-height:130px;font-family:inherit;font-size:13px" placeholder="Pegá el texto de la página..."></textarea></div>' +
+      '<div class="btn-row"><button class="btn-primary" id="aiBtn" onclick="doAiImport()">Procesar con IA</button></div>' +
+      '<div id="aiStatus"></div>' +
+    '</div></div>' +
+    '<div class="section"><h3>✍ Datos de la canción</h3>' +
+      '<span class="flabel">Artista</span><input type="text" id="fArtist" placeholder="Nombre del artista" />' +
+      '<span class="flabel">Título</span><input type="text" id="fTitle" placeholder="Título de la canción" />' +
+      '<span class="flabel">Letras y acordes (versión Principal)</span>' +
+      '<textarea id="fContent" placeholder="Pegá o escribí el contenido aquí..."></textarea>' +
+      '<div class="btn-row">' +
+        '<button class="btn-primary" onclick="doSave()">Guardar canción</button>' +
+        '<button class="btn-secondary" onclick="goHome()">Cancelar</button>' +
+      '</div></div>';
+  updateAiUI();
 }
-function switchMethod(m) {
-  ['auto','ai'].forEach(k => {
-    document.getElementById('mtab-'+k).className   = 'method-tab'  +(m===k?' active':'');
-    document.getElementById('mpanel-'+k).className = 'method-panel'+(m===k?' active':'');
-  });
-}
+
+// ── RENDER: EDIT ───────────────────────────────────────────────────────────
 function renderEdit(id) {
-  const s = songs.find(x=>x.id===id); if (!s) { goHome(); return; }
-  document.getElementById('view').innerHTML = `
-    <button class="back" onclick="go('song','${s.id}')">← Volver</button>
-    <div class="pgtitle">Editar canción</div>
-    <div class="card-section">
-      <span class="flabel">Artista</span>
-      <input type="text" id="fArtist" value="${esc(s.artist)}">
-      <span class="flabel">Título</span>
-      <input type="text" id="fTitle" value="${esc(s.title)}">
-      <span class="flabel">Letras y acordes</span>
-      <textarea id="fContent">${esc(s.content)}</textarea>
-      <div class="btn-row">
-        <button class="btn-save" onclick="doUpdate('${s.id}')">Guardar cambios</button>
-        <button class="btn-cancel" onclick="go('song','${s.id}')">Cancelar</button>
-      </div>
-    </div>`;
+  const s = songs.find(function(x) { return x.id === id; });
+  if (!s) { goHome(); return; }
+  // Deep copy versions for editing
+  editVersions = s.versions.map(function(v) { return { name: v.name, content: v.content }; });
+  editVerIdx = 0;
+  document.getElementById('view').innerHTML =
+    '<button class="back" onclick="go(\'song\',\'' + s.id + '\')">← Volver</button>' +
+    '<div class="pgtitle">Editar canción</div>' +
+    '<div class="section">' +
+      '<span class="flabel">Artista</span><input type="text" id="fArtist" value="' + esc(s.artist) + '" />' +
+      '<span class="flabel">Título</span><input type="text" id="fTitle" value="' + esc(s.title) + '" />' +
+    '</div>' +
+    '<div class="section" id="verSection">' +
+      buildVerTabsHTML(s.id) +
+    '</div>' +
+    '<div class="btn-row" style="padding:0 0 20px 0">' +
+      '<button class="btn-primary" onclick="doUpdate(\'' + s.id + '\')">Guardar cambios</button>' +
+      '<button class="btn-secondary" onclick="go(\'song\',\'' + s.id + '\')">Cancelar</button>' +
+    '</div>';
 }
+
+function buildVerTabsHTML(songId) {
+  const MAX = 3;
+  let html = '<h3>📋 Versiones</h3>';
+  // Tabs row
+  html += '<div class="ver-tabs" id="verTabs">';
+  editVersions.forEach(function(v, i) {
+    html += '<button class="ver-tab' + (i === editVerIdx ? ' active' : '') + '" onclick="switchVerTab(\'' + songId + '\',' + i + ')">' +
+      esc(v.name || ('Versión ' + (i+1))) +
+      (i > 0 ? ' <span class="ver-tab-del" onclick="deleteVerTab(event,\'' + songId + '\',' + i + ')" title="Eliminar versión">×</span>' : '') +
+    '</button>';
+  });
+  if (editVersions.length < MAX) {
+    html += '<button class="ver-tab ver-tab-add" onclick="addVerTab(\'' + songId + '\')">+ Nueva</button>';
+  }
+  html += '</div>';
+  // Active version content
+  const v = editVersions[editVerIdx];
+  if (editVerIdx > 0) {
+    html += '<div class="ver-name-row">' +
+      '<span class="flabel" style="margin:0;white-space:nowrap">Nombre:</span>' +
+      '<input type="text" id="verName" maxlength="30" value="' + esc(v.name) + '" oninput="editVersions[editVerIdx].name=this.value" placeholder="Nombre de esta versión" />' +
+    '</div>';
+  } else {
+    html += '<div class="ver-info">Principal — nombre fijo</div>';
+  }
+  html += '<textarea id="verContent" placeholder="Letras y acordes...">' + esc(v.content) + '</textarea>';
+  if (editVerIdx > 0) {
+    html += '<button class="btn-secondary" style="margin-top:8px;font-size:12px" onclick="copyFromPrincipal()">↓ Copiar contenido de Principal como punto de partida</button>';
+  }
+  return html;
+}
+
+function switchVerTab(songId, idx) {
+  // Save current textarea before switching
+  const ta = document.getElementById('verContent');
+  if (ta) editVersions[editVerIdx].content = ta.value;
+  const vn = document.getElementById('verName');
+  if (vn) editVersions[editVerIdx].name = vn.value;
+  editVerIdx = idx;
+  document.getElementById('verSection').innerHTML = buildVerTabsHTML(songId);
+}
+
+function addVerTab(songId) {
+  const ta = document.getElementById('verContent');
+  if (ta) editVersions[editVerIdx].content = ta.value;
+  if (editVersions.length >= 3) return;
+  editVersions.push({ name: 'Versión ' + (editVersions.length + 1), content: '' });
+  editVerIdx = editVersions.length - 1;
+  document.getElementById('verSection').innerHTML = buildVerTabsHTML(songId);
+}
+
+function deleteVerTab(event, songId, idx) {
+  event.stopPropagation();
+  if (idx === 0) return;
+  if (!confirm('¿Eliminar la versión "' + editVersions[idx].name + '"?')) return;
+  editVersions.splice(idx, 1);
+  if (editVerIdx >= editVersions.length) editVerIdx = editVersions.length - 1;
+  document.getElementById('verSection').innerHTML = buildVerTabsHTML(songId);
+}
+
+function copyFromPrincipal() {
+  const ta = document.getElementById('verContent');
+  if (ta && editVersions[0]) {
+    ta.value = editVersions[0].content;
+    editVersions[editVerIdx].content = ta.value;
+  }
+}
+
+// ── RENDER: DELETE ─────────────────────────────────────────────────────────
 function renderDel(id) {
-  const s = songs.find(x=>x.id===id); if (!s) { goHome(); return; }
-  document.getElementById('view').innerHTML = `
-    <button class="back" onclick="go('song','${s.id}')">← Volver</button>
-    <div class="confirm-wrap">
-      <div class="confirm-box">
-        <h3>🗑 Eliminar canción</h3>
-        <p>¿Eliminar <strong>${esc(s.title)}</strong> de ${esc(s.artist)}? Esta acción no se puede deshacer.</p>
-        <div class="btn-row">
-          <button class="btn-save" style="background:#b03030" onclick="doDelete('${s.id}')">Eliminar</button>
-          <button class="btn-cancel" onclick="go('song','${s.id}')">Cancelar</button>
-        </div>
-      </div>
-    </div>`;
+  const s = songs.find(function(x) { return x.id === id; });
+  if (!s) { goHome(); return; }
+  document.getElementById('view').innerHTML =
+    '<button class="back" onclick="go(\'song\',\'' + s.id + '\')">← Volver</button>' +
+    '<div class="confirm-wrap"><div class="confirm-box">' +
+      '<h3>🗑 Eliminar canción</h3>' +
+      '<p>¿Eliminar <strong>' + esc(s.title) + '</strong> de ' + esc(s.artist) + '? Esta acción no se puede deshacer.</p>' +
+      '<div class="btn-row">' +
+        '<button class="btn-primary" style="background:#b03030" onclick="doDelete(\'' + id + '\')">Eliminar</button>' +
+        '<button class="btn-secondary" onclick="go(\'song\',\'' + id + '\')">Cancelar</button>' +
+      '</div></div></div>';
 }
+
 function emptyHTML() {
-  return `<div class="empty"><div class="empty-ic">🎵</div><h3>Aún no hay canciones</h3><p>Agregá la primera con el botón de arriba, o importá un backup desde Ajustes.</p></div>`;
+  return '<div class="empty"><div class="empty-ic">🎵</div><h3>Aún no hay canciones</h3><p>Agregá la primera con el botón de arriba, o importá un backup desde Ajustes.</p></div>';
+}
+
+// ── IMPORT HELPERS ─────────────────────────────────────────────────────────
+function switchItab(t) {
+  importTab = t;
+  ['paste','ai'].forEach(function(k) { document.getElementById('iblock-'+k).className = 'iblock' + (k===t?' show':''); });
+  document.querySelectorAll('.itab').forEach(function(b,i) { b.className = 'itab' + (['paste','ai'][i]===t?' active':''); });
+}
+function updateAiUI() {
+  const p = document.getElementById('aiProv'); if (!p) return;
+  const isA = p.value === 'anthropic';
+  document.getElementById('aiProvHint').innerHTML = isA
+    ? '<div class="status st-info" style="margin-top:8px">Puede obtener la canción directamente desde la URL.</div>'
+    : '<div class="status st-info" style="margin-top:8px">No puede navegar URLs. Pegá el texto de la página abajo.</div>';
+  document.getElementById('aiPasteWrap').style.display = isA ? 'none' : 'block';
+}
+function doParse() {
+  const raw = document.getElementById('pasteArea').value;
+  const st = document.getElementById('parseStatus');
+  if (!raw.trim()) { st.innerHTML = '<div class="status st-err">Pegá el texto de la página primero.</div>'; return; }
+  const parsed = parsePageText(raw);
+  document.getElementById('fArtist').value  = parsed.artist;
+  document.getElementById('fTitle').value   = parsed.title;
+  document.getElementById('fContent').value = parsed.content;
+  st.innerHTML = parsed.content
+    ? '<div class="status st-ok" style="margin-top:8px">✓ Datos extraídos. Revisá y completá lo que falte.</div>'
+    : '<div class="status st-info" style="margin-top:8px">No se encontró bloque de acordes. Completá manualmente.</div>';
+}
+async function doAiImport() {
+  const provider = document.getElementById('aiProv').value;
+  const apiKey   = document.getElementById('aiKey').value.trim();
+  const url      = document.getElementById('aiUrl').value.trim();
+  const pasted   = (document.getElementById('aiPasteText') || {}).value || '';
+  if (!apiKey) { alert('Ingresá la API key primero.'); return; }
+  if (!url && !pasted.trim()) { alert('Ingresá una URL o pegá el texto de la página.'); return; }
+  const btn = document.getElementById('aiBtn'), st = document.getElementById('aiStatus');
+  btn.disabled = true; btn.textContent = 'Procesando...';
+  st.innerHTML = '<div class="status st-load">⏳ Procesando con IA...</div>';
+  const useUrl = provider === 'anthropic' && url;
+  try {
+    const song = await callAI(provider, apiKey, useUrl ? url : (pasted.trim() || url), useUrl);
+    document.getElementById('fArtist').value  = song.artist  || '';
+    document.getElementById('fTitle').value   = song.title   || '';
+    document.getElementById('fContent').value = song.content || '';
+    st.innerHTML = '<div class="status st-ok">✓ Canción importada. Revisá y guardá.</div>';
+  } catch(e) {
+    st.innerHTML = '<div class="status st-err">✗ Error: ' + esc(e.message) + '</div>';
+  }
+  document.getElementById('aiKey').value = '';
+  btn.disabled = false; btn.textContent = 'Procesar con IA';
+}
+
+// ── SMART PASTE PARSER ─────────────────────────────────────────────────────
+function parsePageText(raw) {
+  const lines = raw.split('\n').map(function(l) { return l.trim(); });
+  var title = '', artist = '', contentStart = -1;
+  for (var i = 0; i < lines.length; i++) { if (S_RE.test(lines[i])) { contentStart = i; break; } }
+  const before = lines.slice(0, contentStart > 0 ? contentStart : 15);
+  for (var i = 0; i < before.length; i++) {
+    var l = before[i];
+    if (l.startsWith('# ') && !title)  title  = l.replace(/^# /, '').replace(/\[([^\]]+)\]\(.*?\)/g, '$1').replace(/\s*\(acordes.*\)/i, '').trim();
+    if (l.startsWith('## ') && !artist) artist = l.replace(/^## /, '').replace(/\[([^\]]+)\]\(.*?\)/g, '$1').trim();
+  }
+  if (!title || !artist) {
+    const cands = before.filter(function(l) { return l.length > 1 && l.length < 80 && !l.includes('://') && !l.includes('►') && !/^\d+$/.test(l) && !/^(Suscr|Iniciar|Buscar|Listas|Más|Login)/i.test(l); });
+    if (!title && cands[0])  title  = cands[0].replace(/\s*[\(-–].*$/, '').trim();
+    if (!artist && cands[1]) artist = cands[1].trim();
+  }
+  var content = '';
+  if (contentStart >= 0) {
+    const END = ['composición de','visualizaç','visualizaciones','colaboración y revisión','simplificar acordes','desplazar','modo teatro','cerrar reproductor'];
+    const block = [];
+    for (var i = contentStart; i < lines.length; i++) {
+      if (END.some(function(m) { return lines[i].toLowerCase().includes(m); })) break;
+      block.push(lines[i]);
+    }
+    content = block.join('\n').trim();
+  }
+  return { title: title, artist: artist, content: content };
+}
+
+// ── AI CALL (one-time key) ─────────────────────────────────────────────────
+async function callAI(provider, apiKey, inputText, isUrl) {
+  const sys = 'You are a music data extractor. Return ONLY a raw JSON object — no markdown, no backticks — with fields: "title", "artist", "content" (full chord+lyrics preserving [Section] headers, chords above lyrics, tab notation).';
+  const msg = isUrl ? 'Fetch this URL and extract the song as JSON: ' + inputText : 'Extract the song from this text and return as JSON:\n\n' + inputText.slice(0, 7000);
+  let resText = '';
+  if (provider === 'anthropic') {
+    const body = { model: 'claude-sonnet-4-20250514', max_tokens: 4000, system: sys, messages: [{role:'user',content:msg}] };
+    if (isUrl) body.tools = [{type:'web_search_20250305',name:'web_search'}];
+    const res = await fetch('https://api.anthropic.com/v1/messages', { method:'POST', headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'}, body:JSON.stringify(body) });
+    const d = await res.json(); if (d.error) throw new Error(d.error.message);
+    resText = (d.content||[]).filter(function(b){return b.type==='text';}).map(function(b){return b.text;}).join('');
+  } else if (provider === 'openai') {
+    const res = await fetch('https://api.openai.com/v1/chat/completions', { method:'POST', headers:{'Content-Type':'application/json','Authorization':'Bearer '+apiKey}, body:JSON.stringify({model:'gpt-4o',messages:[{role:'system',content:sys},{role:'user',content:msg}]}) });
+    const d = await res.json(); if (d.error) throw new Error(d.error.message);
+    resText = d.choices?.[0]?.message?.content || '';
+  } else if (provider === 'google') {
+    const res = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key='+apiKey, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({contents:[{parts:[{text:sys+'\n\n'+msg}]}]}) });
+    const d = await res.json(); if (d.error) throw new Error(d.error.message);
+    resText = d.candidates?.[0]?.content?.parts?.[0]?.text || '';
+  } else if (provider === 'deepseek') {
+    const res = await fetch('https://api.deepseek.com/v1/chat/completions', { method:'POST', headers:{'Content-Type':'application/json','Authorization':'Bearer '+apiKey}, body:JSON.stringify({model:'deepseek-chat',messages:[{role:'system',content:sys},{role:'user',content:msg}]}) });
+    const d = await res.json(); if (d.error) throw new Error(d.error.message);
+    resText = d.choices?.[0]?.message?.content || '';
+  }
+  if (!resText) throw new Error('Respuesta vacía');
+  const m = resText.replace(/```json|```/g,'').trim().match(/\{[\s\S]*\}/);
+  if (!m) throw new Error('No se pudo parsear la respuesta');
+  return JSON.parse(m[0]);
 }
 
 // ── CRUD ──────────────────────────────────────────────────────────────────
 function doSave() {
-  const a=document.getElementById('fArtist').value.trim(), t=document.getElementById('fTitle').value.trim(), c=document.getElementById('fContent').value.trim();
-  if (!a||!t||!c) { alert('Completá todos los campos.'); return; }
-  songs.unshift({id:Date.now().toString(),artist:a,title:t,content:c}); saveData(); fromView='artists'; go('song',songs[0].id);
+  const a = document.getElementById('fArtist').value.trim();
+  const t = document.getElementById('fTitle').value.trim();
+  const c = document.getElementById('fContent').value.trim();
+  if (!a || !t || !c) { alert('Completá todos los campos.'); return; }
+  const s = { id: Date.now().toString(), artist: a, title: t, versions: [{ name: 'Principal', content: c }] };
+  songs.unshift(s); saveData(); fromView = 'artists'; go('song', s.id);
 }
 function doUpdate(id) {
-  const a=document.getElementById('fArtist').value.trim(), t=document.getElementById('fTitle').value.trim(), c=document.getElementById('fContent').value.trim();
-  if (!a||!t||!c) { alert('Completá todos los campos.'); return; }
-  const i=songs.findIndex(s=>s.id===id); if (i>=0) songs[i]={...songs[i],artist:a,title:t,content:c};
-  saveData(); go('song',id);
+  const a = document.getElementById('fArtist').value.trim();
+  const t = document.getElementById('fTitle').value.trim();
+  // Save current textarea
+  const ta = document.getElementById('verContent');
+  if (ta) editVersions[editVerIdx].content = ta.value;
+  const vn = document.getElementById('verName');
+  if (vn) editVersions[editVerIdx].name = vn.value || ('Versión ' + (editVerIdx + 1));
+  if (!a || !t) { alert('El artista y título son obligatorios.'); return; }
+  if (!editVersions[0].content.trim()) { alert('La versión Principal no puede estar vacía.'); return; }
+  const i = songs.findIndex(function(s) { return s.id === id; });
+  if (i >= 0) songs[i] = Object.assign({}, songs[i], { artist: a, title: t, versions: editVersions });
+  saveData(); curVersionIdx = 0; go('song', id);
 }
-function doDelete(id) { songs=songs.filter(s=>s.id!==id); saveData(); goHome(); }
-
-// ── AUTO FETCH (CORS proxy — no key needed) ───────────────────────────────
-async function doAutoFetch() {
-  const url = document.getElementById('urlAutoIn').value.trim();
-  if (!url) { alert('Ingresá una URL primero.'); return; }
-  const btn=document.getElementById('autoBtn'), st=document.getElementById('autoStatus');
-  btn.disabled=true; btn.textContent='Extrayendo...';
-  st.innerHTML='<div class="status st-load">⏳ Obteniendo la página...</div>';
-  try {
-    let html='', ok=false;
-    for (const proxy of ['https://corsproxy.io/?'+encodeURIComponent(url),'https://api.allorigins.win/raw?url='+encodeURIComponent(url)]) {
-      try {
-        const r=await fetch(proxy,{signal:AbortSignal.timeout(10000)});
-        if (r.ok) { html=await r.text(); ok=true; break; }
-      } catch(e) { /* try next proxy */ }
-    }
-    if (!ok||!html) throw new Error('No se pudo obtener la página. Probá con la opción "Con IA" o ingresá los datos manualmente.');
-
-    const doc=new DOMParser().parseFromString(html,'text/html');
-
-    // Title
-    let title=(doc.querySelector('h1')?.textContent||'').replace(/\s*\(acordes\).*$/i,'').replace(/\s*\(chords\).*$/i,'').trim();
-
-    // Artist — try multiple selectors
-    let artist='';
-    for (const sel of ['h2 a','h2','[class*="artist"] a','[class*="artist"]','[itemprop="byArtist"]']) {
-      const el=doc.querySelector(sel);
-      if (el) { artist=el.textContent.replace(/\s+/g,' ').trim(); break; }
-    }
-
-    // Content — <pre> is standard for chord sites
-    let content='';
-    const pre=doc.querySelector('pre');
-    if (pre) content=(pre.innerText||pre.textContent||'').trim();
-
-    // Fallback: look for common chord/lyric containers
-    if (!content) {
-      for (const sel of ['[class*="chord"]','[class*="cifra"]','[class*="lyric"]','[id*="chord"]','[id*="lyric"]','[id*="tab"]']) {
-        const el=doc.querySelector(sel);
-        if (el&&el.textContent.trim().length>100) { content=(el.innerText||el.textContent||'').trim(); break; }
-      }
-    }
-
-    if (!content) throw new Error('No se encontró el contenido de acordes. Probá con la opción "Con IA".');
-
-    document.getElementById('fArtist').value=artist;
-    document.getElementById('fTitle').value=title;
-    document.getElementById('fContent').value=content;
-    st.innerHTML='<div class="status st-ok">✓ Contenido extraído. Revisá los datos y guardá.</div>';
-  } catch(e) {
-    st.innerHTML=`<div class="status st-err">✗ ${esc(e.message)}</div>`;
-  }
-  btn.disabled=false; btn.textContent='Extraer';
-}
-
-// ── AI FETCH (key in memory only, never stored anywhere) ──────────────────
-const PROVIDERS = {
-  anthropic: {
-    endpoint: 'https://api.anthropic.com/v1/messages',
-    headers: k => ({'Content-Type':'application/json','x-api-key':k,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'}),
-    body: url => JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:4000,tools:[{type:'web_search_20250305',name:'web_search'}],system:'You are a music data extractor. Fetch the given URL and extract the song. Return ONLY a raw JSON object (no markdown, no backticks) with fields: "title" (string), "artist" (string), "content" (string — full chord+lyrics block preserving all formatting: [Section] headers, chords above lyrics, tab notation).',messages:[{role:'user',content:'Extract song from: '+url}]}),
-    parse: d => { if (d.error) throw new Error(d.error.message); return (d.content||[]).filter(b=>b.type==='text').map(b=>b.text).join(''); }
-  },
-  openai: {
-    endpoint: 'https://api.openai.com/v1/chat/completions',
-    headers: k => ({'Content-Type':'application/json','Authorization':'Bearer '+k}),
-    body: url => JSON.stringify({model:'gpt-4o-mini',max_tokens:4000,messages:[{role:'system',content:'You are a music data extractor. When given a URL, fetch its content and extract the song. Return ONLY a raw JSON object (no markdown) with fields: "title", "artist", "content" (full chord+lyrics block preserving formatting).'},{role:'user',content:'Extract song from: '+url}]}),
-    parse: d => { if (d.error) throw new Error(d.error.message); return d.choices?.[0]?.message?.content||''; }
-  },
-  deepseek: {
-    endpoint: 'https://api.deepseek.com/v1/chat/completions',
-    headers: k => ({'Content-Type':'application/json','Authorization':'Bearer '+k}),
-    body: url => JSON.stringify({model:'deepseek-chat',max_tokens:4000,messages:[{role:'system',content:'You are a music data extractor. When given a URL, fetch its content and extract the song. Return ONLY a raw JSON object (no markdown) with fields: "title", "artist", "content" (full chord+lyrics block preserving formatting).'},{role:'user',content:'Extract song from: '+url}]}),
-    parse: d => { if (d.error) throw new Error(d.error.message); return d.choices?.[0]?.message?.content||''; }
-  },
-  google: {
-    endpoint: k => `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${k}`,
-    headers: () => ({'Content-Type':'application/json'}),
-    body: url => JSON.stringify({contents:[{parts:[{text:`You are a music data extractor. Fetch this URL and extract the song. Return ONLY a raw JSON object (no markdown) with fields: "title", "artist", "content" (full chord+lyrics block preserving all formatting). URL: ${url}`}]}]}),
-    parse: d => { if (d.error) throw new Error(d.error.message); return d.candidates?.[0]?.content?.parts?.[0]?.text||''; }
-  }
-};
-
-async function doAiFetch() {
-  const url = document.getElementById('urlAiIn').value.trim();
-  const key = document.getElementById('aiKeyIn').value.trim();
-  const provider = document.getElementById('aiProvider').value;
-  if (!url) { alert('Ingresá una URL primero.'); return; }
-  if (!key) { alert('Ingresá tu API key primero.'); return; }
-
-  // Store in memory only for convenience within this session — never persisted
-  sessionKey = key; sessionProvider = provider;
-
-  const btn=document.getElementById('aiBtn'), st=document.getElementById('aiStatus');
-  btn.disabled=true; btn.textContent='Procesando...';
-  st.innerHTML='<div class="status st-load">🤖 Extrayendo con IA...</div>';
-  try {
-    const p = PROVIDERS[provider];
-    const endpoint = typeof p.endpoint==='function' ? p.endpoint(key) : p.endpoint;
-    const res = await fetch(endpoint,{method:'POST',headers:p.headers(key),body:p.body(url)});
-    const data = await res.json();
-    const txt = p.parse(data);
-    if (!txt) throw new Error('Sin respuesta del modelo');
-    const m = txt.replace(/```json|```/g,'').trim().match(/\{[\s\S]*\}/);
-    if (!m) throw new Error('No se pudo parsear la respuesta');
-    const song = JSON.parse(m[0]);
-    document.getElementById('fArtist').value  = song.artist  || '';
-    document.getElementById('fTitle').value   = song.title   || '';
-    document.getElementById('fContent').value = song.content || '';
-    st.innerHTML='<div class="status st-ok">✓ Canción extraída. Revisá los datos y guardá.</div>';
-  } catch(e) {
-    st.innerHTML=`<div class="status st-err">✗ Error: ${esc(e.message)}</div>`;
-  }
-  btn.disabled=false; btn.textContent='Extraer con IA';
-}
+function doDelete(id) { songs = songs.filter(function(s) { return s.id !== id; }); saveData(); goHome(); }
 
 // ── AUTOSCROLL ────────────────────────────────────────────────────────────
 function toggleScroll(idx) {
-  if (scrollSpeedIdx===idx) { stopScroll(); return; }
-  stopScroll(); scrollSpeedIdx=idx;
-  const px=SPEEDS[idx];
+  if (scrollIdx === idx) { stopScroll(); return; }
+  stopScroll(); scrollIdx = idx;
+  const px = SPEEDS[idx];
   function frame() {
-    window.scrollBy(0,px);
-    if (window.scrollY+window.innerHeight>=document.body.scrollHeight-4) { stopScroll(); updateScrollUI(); return; }
-    scrollRaf=requestAnimationFrame(frame);
+    window.scrollBy(0, px);
+    if (window.scrollY + window.innerHeight >= document.body.scrollHeight - 4) { stopScroll(); return; }
+    scrollRaf = requestAnimationFrame(frame);
   }
-  scrollRaf=requestAnimationFrame(frame); updateScrollUI();
+  scrollRaf = requestAnimationFrame(frame);
+  updateScrollUI();
 }
-function stopScroll() { if(scrollRaf){cancelAnimationFrame(scrollRaf);scrollRaf=null;} scrollSpeedIdx=-1; updateScrollUI(); }
+function stopScroll() {
+  if (scrollRaf) { cancelAnimationFrame(scrollRaf); scrollRaf = null; }
+  scrollIdx = -1; updateScrollUI();
+}
 function updateScrollUI() {
-  SPEEDS.forEach((_,i)=>{ const b=document.getElementById('spd'+i); if(b) b.className='speed-btn'+(scrollSpeedIdx===i?' active':''); });
-  const sb=document.getElementById('spdStop'); if(sb) sb.className='speed-btn'+(scrollSpeedIdx===-1?' active':'');
+  [0,1,2,3].forEach(function(i) { var b = document.getElementById('sp'+i); if (b) b.className = 'sp-btn' + (scrollIdx===i?' on':''); });
+  var sb = document.getElementById('spStop'); if (sb) sb.className = 'sp-btn sp-stop' + (scrollIdx===-1?' on':'');
 }
 
-// ── WAKE LOCK ─────────────────────────────────────────────────────────────
-async function toggleWake() { wakeActive ? releaseWake() : await requestWake(); updateWakeUI(); }
+// ── WAKE LOCK ────────────────────────────────────────────────────────────
+async function toggleWake() { wakeOn ? releaseWake() : await requestWake(); updateWakeUI(); }
 async function requestWake() {
   if ('wakeLock' in navigator) {
-    try { wakeLock=await navigator.wakeLock.request('screen'); wakeActive=true; wakeLock.addEventListener('release',()=>{wakeActive=false;updateWakeUI();}); }
-    catch(e) { wakeActive=false; }
-  } else { alert('Tu navegador no soporta Wake Lock. Activá "No apagar pantalla" desde la configuración del sistema.'); }
+    try { wakeLock = await navigator.wakeLock.request('screen'); wakeOn = true; wakeLock.addEventListener('release', function() { wakeOn = false; updateWakeUI(); }); }
+    catch(e) { wakeOn = false; }
+  } else { alert('Tu navegador no soporta Wake Lock. Activalo desde la configuración del sistema.'); }
 }
-function releaseWake() { if(wakeLock){wakeLock.release();wakeLock=null;} wakeActive=false; }
+function releaseWake() { if (wakeLock) { wakeLock.release(); wakeLock = null; } wakeOn = false; }
 function updateWakeUI() {
-  const b=document.getElementById('wakeBtn');
-  if(b){b.className='wake-btn'+(wakeActive?' active':'');b.innerHTML=wakeActive?'☀ Pantalla activa: ON':'☀ Mantener activa';}
+  var b = document.getElementById('wakeBtn');
+  if (b) { b.className = 'wake-btn' + (wakeOn ? ' on' : ''); b.innerHTML = wakeOn ? '☀ Pantalla activa: ON' : '☀ Mantener activa'; }
 }
 
 // ── INIT ──────────────────────────────────────────────────────────────────
