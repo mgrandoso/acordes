@@ -608,7 +608,7 @@ function renderAdd(){
       '<button class="itab'+(importTab==='ai'?' active':'')+'" onclick="switchItab(\'ai\')">Usar IA</button>'+
     '</div>'+
     '<div class="iblock'+(importTab==='url'?' show':'')+'" id="iblock-url">'+
-      '<p class="hint">Pega la URL de la pagina de acordes (ej: cifraclub.com) y hace click en Obtener.</p>'+
+      '<p class="hint">Pega la URL de cifraclub u otro sitio de acordes y hace click en Obtener. Si no funciona por bloqueo del sitio, usa el tab <strong>Usar IA</strong> o carga los datos a mano abajo.</p>'+
       '<input type="url" id="fetchUrl" placeholder="https://www.cifraclub.com/artista/cancion/" style="font-size:13px" />'+
       '<div class="btn-row"><button class="btn-primary" id="fetchBtn" onclick="doUrlFetch()">&#8659; Obtener desde URL</button></div>'+
       '<div id="fetchStatus"></div>'+
@@ -776,35 +776,47 @@ function parsePageText(raw){
   return{title:title,artist:artist,content:content};
 }
 async function doUrlFetch(){
-  var url=(document.getElementById('fetchUrl')||{}).value||'';
+  var url=(document.getElementById('fetchUrl')||{}).value.trim();
   var st=document.getElementById('fetchStatus');
-  if(!url.trim()){st.innerHTML='<div class="status st-err" style="margin-top:8px">Ingresa una URL primero.</div>';return}
+  if(!url){st.innerHTML='<div class="status st-err" style="margin-top:8px">Ingresa una URL primero.</div>';return}
   var btn=document.getElementById('fetchBtn');
   btn.disabled=true;btn.textContent='Obteniendo...';
-  st.innerHTML='<div class="status st-info" style="margin-top:8px">Conectando...</div>';
-  try{
-    var proxy='https://api.allorigins.win/get?url='+encodeURIComponent(url);
-    var resp=await fetch(proxy);
-    if(!resp.ok)throw new Error('Error de red: '+resp.status);
-    var json=await resp.json();
-    var html=json.contents||'';
-    if(!html)throw new Error('La pagina no devolvio contenido.');
-    // Extraer texto limpio del HTML
-    var doc=new DOMParser().parseFromString(html,'text/html');
-    doc.querySelectorAll('script,style,nav,header,footer,aside,[class*="banner"],[class*="ad-"],[id*="banner"],[id*="sidebar"]').forEach(function(el){el.remove()});
-    var text=doc.body?doc.body.innerText||doc.body.textContent:'';
-    var r=parsePageText(text);
-    document.getElementById('fArtist').value=r.artist;
-    document.getElementById('fTitle').value=r.title;
-    document.getElementById('fContent').value=r.content;
-    st.innerHTML=r.content
-      ?'<div class="status st-ok" style="margin-top:8px">&#10003; Datos extraidos. Revisa y completa lo que falte.</div>'
-      :'<div class="status st-info" style="margin-top:8px">Pagina obtenida pero no se encontro bloque de acordes. Completa los campos manualmente.</div>';
-  }catch(e){
-    st.innerHTML='<div class="status st-err" style="margin-top:8px">Error: '+e.message+'</div>';
-  }finally{
-    btn.disabled=false;btn.textContent='\u21D3 Obtener desde URL';
+  st.innerHTML='<div class="status st-load" style="margin-top:8px">Conectando con el sitio...</div>';
+  var proxies=[
+    'https://corsproxy.io/?'+encodeURIComponent(url),
+    'https://api.allorigins.win/get?url='+encodeURIComponent(url),
+    'https://api.codetabs.com/v1/proxy?quest='+encodeURIComponent(url)
+  ];
+  var html='';
+  for(var i=0;i<proxies.length;i++){
+    try{
+      var resp=await fetch(proxies[i]);
+      if(!resp.ok)continue;
+      if(i===1){// allorigins devuelve JSON
+        var json=await resp.json();
+        html=json.contents||'';
+      }else{
+        html=await resp.text();
+      }
+      if(html&&html.length>500)break;
+    }catch(e){continue;}
   }
+  if(!html||html.length<500){
+    st.innerHTML='<div class="status st-err" style="margin-top:8px">No se pudo obtener la pagina. Proba con el tab <strong>Usar IA</strong> o completa los datos a mano.</div>';
+    btn.disabled=false;btn.textContent='\u2193 Obtener desde URL';
+    return;
+  }
+  var doc=new DOMParser().parseFromString(html,'text/html');
+  doc.querySelectorAll('script,style,nav,header,footer,aside').forEach(function(el){el.remove()});
+  var text=doc.body?doc.body.innerText||doc.body.textContent:'';
+  var r=parsePageText(text);
+  document.getElementById('fArtist').value=r.artist;
+  document.getElementById('fTitle').value=r.title;
+  document.getElementById('fContent').value=r.content;
+  st.innerHTML=r.content
+    ?'<div class="status st-ok" style="margin-top:8px">&#10003; Datos extraidos. Revisa y completa lo que falte.</div>'
+    :'<div class="status st-info" style="margin-top:8px">Pagina obtenida pero no se detecto bloque de acordes. Completa los campos manualmente.</div>';
+  btn.disabled=false;btn.textContent='\u2193 Obtener desde URL';
 }
 function switchItab(t){
   importTab=t;
