@@ -794,10 +794,15 @@ async function doUrlFetch(){
   btn.disabled=true;btn.textContent='Obteniendo...';
 
   var proxies=[
-    {name:'corsproxy.io',    build:function(u){return 'https://corsproxy.io/?'+u;},                                        json:false},
-    {name:'allorigins.win',  build:function(u){return 'https://api.allorigins.win/get?url='+encodeURIComponent(u);},       json:true },
-    {name:'codetabs.com',    build:function(u){return 'https://api.codetabs.com/v1/proxy?quest='+encodeURIComponent(u);},  json:false},
-    {name:'proxy.cors.sh',   build:function(u){return 'https://proxy.cors.sh/'+u;},                                        json:false}
+    // URL sin encode — devuelven texto raw
+    {name:'corsproxy.io',           build:function(u){return 'https://corsproxy.io/?'+u;},                                         json:false},
+    {name:'proxy.corsfix.com',      build:function(u){return 'https://proxy.corsfix.com/?'+u;},                                    json:false},
+    {name:'thingproxy.freeboard.io',build:function(u){return 'https://thingproxy.freeboard.io/fetch/'+u;},                         json:false},
+    {name:'proxy.cors.sh',          build:function(u){return 'https://proxy.cors.sh/'+u;},                                         json:false},
+    // URL con encodeURIComponent — algunos devuelven JSON
+    {name:'allorigins.win (raw)',    build:function(u){return 'https://api.allorigins.win/raw?url='+encodeURIComponent(u);},        json:false},
+    {name:'allorigins.win (json)',   build:function(u){return 'https://api.allorigins.win/get?url='+encodeURIComponent(u);},        json:true },
+    {name:'codetabs.com',           build:function(u){return 'https://api.codetabs.com/v1/proxy?quest='+encodeURIComponent(u);},   json:false}
   ];
 
   function race(promise,ms,label){
@@ -942,8 +947,14 @@ function toggleScroll(idx){
   if(scrollIdx===idx){stopScroll();return}
   stopScroll();scrollIdx=idx;
   var px=SPEEDS[idx];
+  var acc=0; // acumula píxeles fraccionales
   function frame(){
-    window.scrollBy(0,px);
+    acc+=px;
+    if(acc>=1){
+      var step=Math.floor(acc);
+      window.scrollBy(0,step);
+      acc-=step;
+    }
     if(window.scrollY+window.innerHeight>=document.body.scrollHeight-4){stopScroll();return}
     scrollRaf=requestAnimationFrame(frame);
   }
